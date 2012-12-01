@@ -1,0 +1,21 @@
+# SSH Config file
+host *
+	Compression yes
+	TCPKeepAlive yes
+	ServerAliveInterval 5
+	ConnectTimeout 5
+
+	# Masks ~/.ssh/known_host file. Not fool proof.
+	HashKnownHosts yes
+
+	Protocol 2
+
+
+	# disable Kerberos
+	GSSAPIAuthentication no
+	GSSAPIKeyExchange no
+
+	# persist the ssh connection for 5 minutes
+	ControlMaster auto
+	ControlPath ~/.ssh/master-%r@%h:%p
+	ControlPersist 5m
