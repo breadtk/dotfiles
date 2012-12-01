@@ -20,10 +20,15 @@ curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_confi
 echo "Downloading vimrc..."
 curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_configs/master/.vimrc -o "~/.vimrc"
 
+echo "Downloading ssh client config.."
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_configs/master/ssh_config -o "~/.ssh/config"
+
 echo "Rehashing known_host file."
 if [ -e ~/.ssh/known_hosts ]; then
 	ssh-keygen -H -f $HOME/.ssh/known_hosts 2> /dev/null
 fi
+
+echo "That's it. Reloading BASH and cleaning up."
 
 # Reload bash
 source ~/.bashrc
