@@ -3,11 +3,13 @@
 # The most up-to-date file can be found here:
 # https://github.com/breadtk/rc_configs
 
-
 if [ "$SHELL" != "/bin/bash" ]; then
 	echo "We are in $SHELL. This script assumes BASH. Sorry."
 	exit 1
 fi
+
+echo -e "Setting up rc files for user \"$USER\".\n^C to cancel"
+sleep 5
 
 echo "Downloading files from GitHub..."
 
@@ -23,14 +25,12 @@ curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_confi
 echo "Downloading ssh client config.."
 curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_configs/master/ssh_config -o "~/.ssh/config"
 
-echo "Rehashing known_host file."
 if [ -e ~/.ssh/known_hosts ]; then
+	echo "Rehashing known_host file."
 	ssh-keygen -H -f $HOME/.ssh/known_hosts 2> /dev/null
 fi
 
-echo "That's it. Reloading BASH and cleaning up."
-
-# Reload bash
+echo "Reloading BASH and cleaning up."
 source ~/.bashrc
 
 # Clean-up

@@ -30,3 +30,9 @@ set hlsearch       		" highlight search (very useful!)
 set incsearch      		" search incremently (search while typing)
 nore ; :
 nore , ;
+
+" Fix common typos.
+command WQ wq
+command Wq wq
+command W w
+command Q q

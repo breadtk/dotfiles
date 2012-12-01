@@ -7,7 +7,7 @@
 	editor = vim
 [alias]
   co = checkout
-  ci = commit
+  ci = commit -a
   st = status
   br = branch
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short

@@ -2,6 +2,8 @@
 # Alias file #
 ##############
 
+alias vi='vim'
+
 alias grep='grep -i --color=auto'
 alias ls='ls -Alh --color=auto'
 
