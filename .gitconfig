@@ -1,0 +1,7 @@
+[user]
+	name = First Last
+	email = email@address.com
+[github]
+	user = GitHubUsername
+[core]
+	editor = vim
