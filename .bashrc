@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-#
+# <3
 set EDITOR=vim
 
 # Various history related options.
@@ -38,6 +38,6 @@ x () {
       *)           echo "'$1' cannot be extracted via extract()" ;;
     esac
   else
-    echo "'$1' is not a valid file to extra."
+    echo "'$1' is not a valid file to extract."
   fi
 }
