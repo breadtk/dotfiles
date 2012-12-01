@@ -1,22 +1,22 @@
 breadtk's rc files.
 =============
 
-This repo contains various rc files that I usual on all hosts.
+This repository contains various rc files that I use on most systems.
 
 Installation
 -----------
 To install, simply copy/paste the commands below.
 
-    curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/breadtk/rc_configs/master/setup.sh -o ~/setup.sh
+    curl https://raw.github.com/breadtk/rc_configs/master/setup.sh -o ~/setup.sh
 	chmod +x ~/setup.sh
-	./setup.sh
+	~/setup.sh
 
 Updating
 -----------
 
 If you've previously installed my rc files, you can update your files by issuing the following commands:
 
-    .bash_update
+    ~/.bash_update
 
 Contributing
 ------------
