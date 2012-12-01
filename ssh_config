@@ -1,21 +1,28 @@
 # SSH Config file
 host *
 	Compression yes
+
+	# Prevent disconnects
 	TCPKeepAlive yes
 	ServerAliveInterval 5
+	
+	# Overwrites default timeout.
 	ConnectTimeout 5
 
-	# Masks ~/.ssh/known_host file. Not fool proof.
+	# Masks ~/.ssh/known_host file entries. Can be cirumvented.
 	HashKnownHosts yes
 
+	# Mo' betta security.
 	Protocol 2
 
-
-	# disable Kerberos
-	GSSAPIAuthentication no
-	GSSAPIKeyExchange no
-
-	# persist the ssh connection for 5 minutes
+	# All SSH connections to the same host bypass renegotiation
 	ControlMaster auto
 	ControlPath ~/.ssh/master-%r@%h:%p
-	ControlPersist 5m
+
+host example
+	hostname ssh.example.com
+	user alice
+
+host example2
+	hostname ssh.example.org
+	user bob
