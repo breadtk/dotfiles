@@ -32,6 +32,11 @@ syntax on            		" enable colors
 set hlsearch         		" highlight search (very useful!)
 set incsearch        		" search incremently (search while typing)
 
+" Keep undo history across sessions, by storing in file.
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+set undodir=~/.vim/backups
+set undofile
+
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
