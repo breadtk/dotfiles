@@ -15,14 +15,15 @@ host *
 	# Mo' betta security.
 	Protocol 2
 
-	# All SSH connections to the same host bypass renegotiation
-	ControlMaster auto
-	ControlPath ~/.ssh/master-%r@%h:%p
+	# All SSH connections must be setup separately
+	ControlMaster no
 
 host example
 	hostname ssh.example.com
 	user alice
+	IdentityFile ~/.ssh/id_dsa
 
 host example2
 	hostname ssh.example.org
 	user bob
+	IdentityFile ~/.ssh/id_rsa

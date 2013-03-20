@@ -18,9 +18,10 @@ set smartindent         " smart auto indenting
 set smarttab            " smart tab handling for indenting
 set magic               " change the way backslashes are used in search patterns
 set nobackup            " no backup~ files.
-set tabstop=4           " number of spaces a tab counts for
+set expandtab			" converts tabs into spaces based
+set tabstop=2           " number of spaces a tab counts for
+set shiftwidth=2        " spaces for autoindents
 set textwidth=80
-set shiftwidth=4        " spaces for autoindents
 set fileformat=unix     " file mode is unix
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo file -- 20 jump links, regs up to 500 lines'
 set hidden              " remember undo after quitting
@@ -34,5 +35,6 @@ nore , ;
 " Fix common typos.
 command WQ wq
 command Wq wq
+command wQ wq
 command W w
 command Q q
