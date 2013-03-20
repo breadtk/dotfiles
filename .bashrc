@@ -8,6 +8,10 @@ export EDITOR=vim
 export HISTFILE='~/.bash_history'
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+
+# Don’t clear the screen after quitting a manual page
+export MANPAGER="less -X"
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then

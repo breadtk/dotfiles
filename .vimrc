@@ -23,12 +23,23 @@ set tabstop=2           " number of spaces a tab counts for
 set shiftwidth=2        " spaces for autoindents
 set textwidth=80
 set fileformat=unix     " file mode is unix
+set ttyfast             " optimize for fast terminal connections
+set laststatus=2        " Always show status line
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo file -- 20 jump links, regs up to 500 lines'
 set hidden              " remember undo after quitting
 set history=500         " keep 50 lines of command history
 syntax on            		" enable colors
 set hlsearch         		" highlight search (very useful!)
 set incsearch        		" search incremently (search while typing)
+
+" Automatic commands
+if has("autocmd")
+  " Enable file type detection
+  filetype on
+  " Treat .json files as .js
+  autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+endif
+
 nore ; :
 nore , ;
 
