@@ -13,14 +13,18 @@ To install, simply copy/paste the commands below.
 
 Updating
 -----------
-
 If you've previously installed my rc files, you can update your files by issuing the following commands:
 
     ~/.bash_update
 
+Also see
+------------
+If this topic interests you and you would like more ideas, see the following really great Github page:
+
+    http://dotfiles.github.com/
+
 Contributing
 ------------
-
 1. Fork it.
 2. Create a branch (`git checkout -b my_markup`)
 3. Commit your changes (`git commit -am "Added Snarkdown"`)
