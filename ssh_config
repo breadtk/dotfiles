@@ -1,29 +1,36 @@
 # SSH Config file
 host *
-	Compression yes
 
-	# Prevent disconnects
-	TCPKeepAlive yes
-	ServerAliveInterval 5
-	
-	# Overwrites default timeout.
-	ConnectTimeout 5
+  # Ciphers chosen based on advisories that exist as of
+  # 2013-03-01. Revisit around ~2014
+  Ciphers aes256-ctr,aes128-cbc,aes256-cbc,aes128-cbc
 
-	# Masks ~/.ssh/known_host file entries. Can be cirumvented.
-	HashKnownHosts yes
+  # This occurs after connection is established.
+  Compression yes
 
-	# Mo' betta security.
-	Protocol 2
+  # Overwrites default timeout.
+  ConnectTimeout 3
 
-	# All SSH connections must be setup separately
-	ControlMaster no
+  # All SSH connections must be setup separately
+  ControlMaster no
+  ControlPath none
+
+  # Masks known_host file entries. It can be reversed.
+  HashKnownHosts yes
+
+  # Mo' betta security.
+  Protocol 2
+
+  # Prevent disconnects
+  TCPKeepAlive yes
+  ServerAliveInterval 5
 
 host example
-	hostname ssh.example.com
-	user alice
-	IdentityFile ~/.ssh/id_dsa
+  hostname ssh.example.com
+  user alice
+  IdentityFile ~/.ssh/id_dsa
 
 host example2
-	hostname ssh.example.org
-	user bob
-	IdentityFile ~/.ssh/id_rsa
+  hostname ssh.example.org
+  user bob
+  IdentityFile ~/.ssh/id_rsa
