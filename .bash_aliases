@@ -10,18 +10,14 @@ alias ls='ls -Alh --color=auto'
 alias rm='delete_securely'
 
 # Allows aliased commands to carry over when sudoing.
-alias sudo="sudo $@"
+alias sudo="sudo "
 
 # Tries to delete using most to least secure method
 function delete_securely {
 
-    if [ $(command -v srm) ]; then
+    # Best option
+    if [ $(command -v /usr/bin/srm) ]; then
         srm "$@"
-        return
-    fi  
-
-    if [ $(command -v shred) ]; then
-        shred --remove --random-source=/dev/urandom "$@"
         return
     fi  
 
