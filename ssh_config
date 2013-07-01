@@ -1,6 +1,18 @@
-# SSH Config file
-host *
+# This file needs to be sorted from the most specific to least specific.
+# If multiple values match, only the first match valued is used.
 
+host example
+  hostname ssh.example.com
+  user alice
+  IdentityFile ~/.ssh/id_dsa
+
+host example2
+  hostname ssh.example.org
+  user bob
+  IdentityFile ~/.ssh/id_rsa
+
+
+host *
   # Ciphers chosen based on advisories that exist as of
   # 2013-03-01. Revisit around ~2014
   Ciphers aes256-ctr,aes128-cbc,aes256-cbc,aes128-cbc
@@ -24,13 +36,4 @@ host *
   # Prevent disconnects
   TCPKeepAlive yes
   ServerAliveInterval 5
-
-host example
-  hostname ssh.example.com
-  user alice
-  IdentityFile ~/.ssh/id_dsa
-
-host example2
-  hostname ssh.example.org
-  user bob
-  IdentityFile ~/.ssh/id_rsa
+  ServerAliveCountMax 6
