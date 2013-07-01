@@ -5,25 +5,10 @@
 alias vi='vim'
 
 alias grep='grep -i --color=auto'
-alias ls='ls -Alh --color=auto'
-
-alias rm='delete_securely'
+alias ls='ls -lh --color=auto'
 
 # Allows aliased commands to carry over when sudoing.
 alias sudo="sudo "
-
-# Tries to delete using most to least secure method
-function delete_securely {
-
-    # Best option
-    if [ $(command -v /usr/bin/srm) ]; then
-        srm "$@"
-        return
-    fi  
-
-    command -v rm "$@"
-    return
-}
 
 # Allows for any file to be extracted using: x $1
 x () {
@@ -47,4 +32,3 @@ x () {
     echo "'$1' is not a valid file to extract."
   fi  
 }
-
