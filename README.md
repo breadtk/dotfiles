@@ -4,7 +4,7 @@ breadtk's rc files.
 This repository contains various rc files that I use on most systems.
 
 Installation
------------
+------------
 To install, simply copy/paste the commands below.
 
     curl https://raw.github.com/breadtk/rc_configs/master/setup.sh -o ~/setup.sh
@@ -12,13 +12,13 @@ To install, simply copy/paste the commands below.
     ~/setup.sh
 
 Updating
------------
+--------
 If you've previously installed my rc files, you can update your files by issuing the following commands:
 
     ~/.bash_update
 
 Also see
-------------
+--------
 If this topic interests you and you would like more ideas, see the following really great Github page:
 
     http://dotfiles.github.com/
