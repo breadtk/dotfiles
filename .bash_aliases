@@ -5,7 +5,8 @@
 alias vi='vim'
 
 alias grep='grep -i --color=auto'
-alias ls='ls -lh --color=auto'
+#alias ls='ls -lh --color=auto' # Linux
+#alias ls='ls -lhG' # OS X
 
 # Allows aliased commands to carry over when sudoing.
 alias sudo="sudo "
