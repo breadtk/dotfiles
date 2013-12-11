@@ -26,7 +26,7 @@ host *
   ControlMaster no
   ControlPath none
 
-  # Masks known_host file entries. It can be reversed.
+  # Obfuscate known_host file entries. This process can be reversed.
   HashKnownHosts yes
 
   # Mo' betta security.
