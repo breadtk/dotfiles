@@ -15,10 +15,10 @@ export MANPAGER="less -X"
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases 
+  . ~/.bash_aliases 
 fi
 
 # Enable auto completion
 if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
+  source /etc/bash_completion
 fi
