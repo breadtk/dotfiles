@@ -4,6 +4,7 @@
 
 alias vi='vim'
 
+# Add color to my commands.
 alias grep='grep -i --color=auto'
 #alias ls='ls -lh --color=auto' # Linux
 #alias ls='ls -lhG' # OS X
