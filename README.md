@@ -24,8 +24,8 @@ issuing the following commands:
 
 Also see
 --------
-If this topic interests you and you would like more ideas, see the following
-really great Github page: http://dotfiles.github.io/ 
+For more ideas, check out the unofficial guide to dotfiles on GitHub:
+http://dotfiles.github.io/ 
 
 Contributing
 ------------
