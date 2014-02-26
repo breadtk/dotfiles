@@ -3,7 +3,6 @@ set background=dark     " enable for dark terminals
 set scrolloff=5         " 5 lines above/below cursor when scrolling
 set sidescrolloff=5     " 5 lines left/right 
 set number              " show line numbers
-set paste               " fixes paste problem
 set showmatch           " show matching bracket (briefly jump)
 set showmode            " show mode in status bar (insert/replace/...)
 set showcmd             " show typed command in status bar
