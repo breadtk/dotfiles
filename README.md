@@ -1,4 +1,4 @@
-breadtk's rc files.
+m0rganic's rc files.
 =============
 
 This repository contains various rc files that I use on most systems.
