@@ -7,7 +7,7 @@ Installation
 -----------
 To install, simply copy/paste the commands below.
 
-    curl https://raw.github.com/breadtk/rc_configs/master/setup.sh -o ~/setup.sh
+    curl https://raw.github.com/m0rganic/rc_configs/master/setup.sh -o ~/setup.sh
     chmod +x ~/setup.sh
     ~/setup.sh
 
