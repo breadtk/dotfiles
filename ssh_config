@@ -12,9 +12,8 @@ host example2
   IdentityFile ~/.ssh/id_rsa
 
 host *
-  # Ciphers chosen based on advisories that exist as of
-  # 2013-03-01. Revisit around ~2014
-  Ciphers aes256-ctr,aes128-cbc,aes256-cbc,aes128-cbc
+  # Revisit around ~2016
+  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 
   # This occurs after connection is established.
   Compression yes
