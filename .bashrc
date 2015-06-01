@@ -5,7 +5,7 @@
 export EDITOR=vim
 
 # Various history related options.
-export HISTFILE='~/.bash_history'
+export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
