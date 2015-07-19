@@ -1,21 +1,21 @@
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
 # <3
 export EDITOR=vim
 
-# Various history related options.
+# BASH history options 
 export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoreboth
-export HISTFILESIZE=1000000
+export HISTFILESIZE=1000000 # Line numbers to save
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 
-# Alias definitions.
+# Alias definitions
 if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases 
+  . ~/.bash_aliases
 fi
 
 # Enable auto completion

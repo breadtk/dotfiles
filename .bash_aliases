@@ -2,19 +2,26 @@
 # Alias file #
 ##############
 
-alias vi='vim'
+# OS X vs Linux specific aliases
+if [[ $(uname -a) == "Darwin"* ]]; then
+    alias ls='ls -alhG'
+    alias f='find . | grep -iE --color $*'
+else
+    alias ls='ls -alh --color=auto'
+    alias f='find . | grep -iP --color $*'
+fi
 
-# Add color to my commands.
-alias grep='grep -i --color=auto'
-#alias ls='ls -lh --color=auto' # Linux
-#alias ls='ls -lhG' # OS X
+alias df='df -h'                    # Readable sizes
+alias du='du -h'                    # Readable sizes
+alias grep='grep -i --color=auto'   # Enable color and case insensitivity
+alias scp='scp -pr'                 # Scp with preserving times and recursion
+alias sudo="sudo " # Allows aliased commands to carry over when sudoing.
+alias vi='vim'                      # The one true god
+alias mkdir='mkdir -p'              # Make dir but create intermediary dirs
 
-# Allows aliased commands to carry over when sudoing.
-alias sudo="sudo "
-
-# Allows for any file to be extracted using: x $1
+# Extract just about any file using: x $1
 x () {
-  if [ -f $1 ] ; then
+  if [ -f $1 ]; then
     case $1 in
       *.tar.bz2)   tar xjf $1 ;;
       *.tar.gz)    tar xzf $1 ;;
@@ -28,7 +35,7 @@ x () {
       *.Z)         uncompress $1 ;;
       *.7z)        7za x $1 ;;
       *.xz)        xz -d $1 ;;
-      *)           echo "'$1' cannot be extracted via extract()" ;;
+      *)           echo "'$1' cannot be extracted via x()" ;;
     esac
   else
     echo "'$1' is not a valid file to extract."

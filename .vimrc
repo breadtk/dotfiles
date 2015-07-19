@@ -39,7 +39,7 @@ set undofile
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
-  filetype on
+  filetype plugin indent on
   " Treat .json files as .js
   autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 endif
