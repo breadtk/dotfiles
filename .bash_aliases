@@ -6,6 +6,7 @@
 if [[ $(uname -a) == "Darwin"* ]]; then
     alias ls='ls -alhG'
     alias f='find . | grep -iE --color $*'
+    alias rm='srm -fsz'
 else
     alias ls='ls -alh --color=auto'
     alias f='find . | grep -iP --color $*'
@@ -14,30 +15,30 @@ fi
 alias df='df -h'                    # Readable sizes
 alias du='du -h'                    # Readable sizes
 alias grep='grep -i --color=auto'   # Enable color and case insensitivity
-alias scp='scp -pr'                 # Scp with preserving times and recursion
-alias sudo="sudo " # Allows aliased commands to carry over when sudoing.
-alias vi='vim'                      # The one true god
 alias mkdir='mkdir -p'              # Make dir but create intermediary dirs
+alias scp='scp -p'                 # Scp with preserving times and recursion
+alias sudo='sudo '                  # Allows aliased commands to carry over when sudoing.
+alias vi='vim'                      # The one true god
 
 # Extract just about any file using: x $1
 x () {
-  if [ -f $1 ]; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1 ;;
-      *.tar.gz)    tar xzf $1 ;;
-      *.bz2)       bunzip2 $1 ;;
-      *.rar)       rar x $1 ;;
-      *.gz)        gunzip $1 ;;
-      *.tar)       tar xvf $1 ;;
-      *.tbz2)      tar xjf $1 ;;
-      *.tgz)       tar xzf $1 ;;
-      *.zip)       unzip $1 ;;
-      *.Z)         uncompress $1 ;;
-      *.7z)        7za x $1 ;;
-      *.xz)        xz -d $1 ;;
-      *)           echo "'$1' cannot be extracted via x()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file to extract."
-  fi  
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1 ;;
+            *.tar.gz)    tar xzf $1 ;;
+            *.bz2)       bunzip2 $1 ;;
+            *.rar)       rar x $1 ;;
+            *.gz)        gunzip $1 ;;
+            *.tar)       tar xvf $1 ;;
+            *.tbz2)      tar xjf $1 ;;
+            *.tgz)       tar xzf $1 ;;
+            *.zip)       unzip $1 ;;
+            *.Z)         uncompress $1 ;;
+            *.7z)        7za x $1 ;;
+            *.xz)        xz -d $1 ;;
+            *)           echo "'$1' cannot be extracted via x()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file to extract."
+    fi
 }

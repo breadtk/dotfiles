@@ -5,36 +5,43 @@
 # the first matched value is used.
 
 host example
-  hostname ssh.example.com
-  user alice
-  IdentityFile ~/.ssh/id_dsa
+    hostname ssh.example.com
+    user alice
+    IdentityFile ~/.ssh/id_rsa
 
 host example2
-  hostname ssh.example.org
-  user bob
-  IdentityFile ~/.ssh/id_rsa
+    hostname 1.2.3.4
+    user bob
 
 host *
-  # Revisit around ~2016
-  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+    # These algorithms are supported on OS X 10.10+ and modern Linux distros. If
+    # any of them do not work, consult 'man ssh_config' to see your system
+    # specific algorithms. Revisit around ~2016
+    Ciphers aes256-ctr,aes192-ctr,aes128-ctr
+    KexAlgorithms diffie-hellman-group-exchange-sha256
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
 
-  # This occurs after connection is established.
-  Compression yes
+    # Improve performance at the cost of CPU
+    Compression yes
 
-  # Overwrites default timeout.
-  ConnectTimeout 3
+    # Prevents minor accidents
+    ForwardAgent no
+    ForwardX11 no
 
-  # All SSH connections must be setup separately
-  ControlMaster no
-  ControlPath none
+    # Overwrites default timeout.
+    ConnectTimeout 3
 
-  # Obfuscate known_host file entries. This process can be reversed.
-  HashKnownHosts yes
+    # All SSH connections must be setup separately
+    ControlMaster no
+    ControlPath none
 
-  # Mo' betta security.
-  Protocol 2
+    # Obfuscate ~/.ssh/known_host file entries. Is still reversible.
+    HashKnownHosts yes
 
-  # Prevent disconnects
-  TCPKeepAlive yes
-  ServerAliveInterval 5
-  ServerAliveCountMax 6
+    # Mo' betta security.
+    Protocol 2
+
+    # Prevent disconnects
+    TCPKeepAlive yes
+    ServerAliveInterval 5
+    ServerAliveCountMax 6
