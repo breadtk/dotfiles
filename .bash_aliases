@@ -15,13 +15,14 @@ fi
 ###################
 # General aliases #
 ###################
-alias df='df -h'                    # Readable sizes
-alias du='du -h'                    # Readable sizes
-alias grep='grep -i --color=auto'   # Enable color and case insensitivity
-alias mkdir='mkdir -p'              # Make dir but create intermediary dirs
-alias scp='scp -p'                  # Scp with preserving times and recursion
-alias sudo='sudo '                  # Allows aliased commands to carry over when sudoing.
-alias vi='vim'                      # The one true god
+alias df='df -h'                     # Readable sizes
+alias du='du -h'                     # Readable sizes
+alias fuck='sudo $(history -p \!\!)' # Retry last command via sudo
+alias grep='grep -i --color=auto'    # Enable color and case insensitivity
+alias mkdir='mkdir -p'               # Make dir but create intermediary dirs
+alias scp='scp -p'                   # Scp with preserving times and recursion
+alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
+alias vi='vim'                       # The one true god
 alias less='/usr/share/vim/vim7[0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
 
 #############
@@ -49,4 +50,9 @@ x () {
     else
         echo "'$1' is not a valid file to extract."
     fi
+}
+
+# ls after every cd.
+cd () {
+    builtin cd "$@" && ls;
 }

@@ -5,22 +5,8 @@ This repository contains various rc files that I use on most systems.
 
 Installation
 ------------
-To install, simply copy/paste the commands below.
-
-```shell
-curl https://raw.github.com/breadtk/rc_configs/master/setup.sh -o ~/setup.sh
-chmod +x ~/setup.sh
-~/setup.sh
-```
-
-Updating
---------
-If you've previously installed my rc files, you can update your files by
-issuing the following commands:
-
-```shell
-~/.bash_update
-```
+To install, simply download any particular file you're interested in and put it
+into your home directory.
 
 Also see
 --------
