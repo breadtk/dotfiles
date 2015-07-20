@@ -22,6 +22,7 @@ alias mkdir='mkdir -p'              # Make dir but create intermediary dirs
 alias scp='scp -p'                  # Scp with preserving times and recursion
 alias sudo='sudo '                  # Allows aliased commands to carry over when sudoing.
 alias vi='vim'                      # The one true god
+alias less='/usr/share/vim/vim7[0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
 
 #############
 # Functions #

@@ -1,4 +1,4 @@
-set background=dark     " enable for dark terminals
+set background=dark    " enable for dark terminals
 set esckeys             " map missed escape sequences (enables keypad keys)
 set expandtab           " converts tabs into spaces based
 set fileformat=unix     " file mode is unix
