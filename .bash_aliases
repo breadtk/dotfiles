@@ -29,22 +29,22 @@ alias less='/usr/share/vim/vim7[0-9]/macros/less.sh' # Leverage Vim for syntax h
 # Functions #
 #############
 
-# Extract just about any file using: x $1
+# Extract just about any compressed file using: x $1
 x () {
-    if [ -f $1 ]; then
+    if [[ -f "$1" ]]; then
         case $1 in
-            *.tar.bz2)   tar xjf $1 ;;
-            *.tar.gz)    tar xzf $1 ;;
-            *.bz2)       bunzip2 $1 ;;
-            *.rar)       rar x $1 ;;
-            *.gz)        gunzip $1 ;;
-            *.tar)       tar xvf $1 ;;
-            *.tbz2)      tar xjf $1 ;;
-            *.tgz)       tar xzf $1 ;;
-            *.zip)       unzip $1 ;;
-            *.Z)         uncompress $1 ;;
-            *.7z)        7za x $1 ;;
-            *.xz)        xz -d $1 ;;
+            *.7z)        7za x "$1" ;;
+            *.Z)         uncompress "$1" ;;
+            *.bz2)       bunzip2 "$1" ;;
+            *.gz)        gunzip "$1" ;;
+            *.rar)       rar x "$1" ;;
+            *.tar)       tar xvf "$1" ;;
+            *.tar.bz2)   tar xjf "$1" ;;
+            *.tar.gz)    tar xzf "$1" ;;
+            *.tbz2)      tar xjf "$1" ;;
+            *.tgz)       tar xzf "$1" ;;
+            *.xz)        xz -d "$1" ;;
+            *.zip)       unzip "$1" ;;
             *)           echo "'$1' cannot be extracted via x()" ;;
         esac
     else
