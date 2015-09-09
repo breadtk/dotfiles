@@ -52,7 +52,15 @@ x () {
     fi
 }
 
+# Recursively search for grep pattern derived from $1. Useful when you know of a
+# word or phrase in a file that is contained somewhere in the directory you're
+# currently in.
+g () {
+    grep -r "$1" *;
+}
+
 # ls after every cd.
 cd () {
     builtin cd "$@" && ls;
 }
+
