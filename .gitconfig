@@ -1,10 +1,10 @@
 [user]
-	name = Osman Surkatty
-	email = osman@surkatty.org
+  name = Osman Surkatty
+  email = osman@surkatty.org
 [github]
-	user = breadtk
+  user = breadtk
 [core]
-	editor = vim
+  editor = vim
 [alias]
   co = checkout
   ci = commit -a
