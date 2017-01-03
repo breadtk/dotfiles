@@ -1,9 +1,0 @@
-#!/bin/bash
-# Figure out how to update the files here.
-
-if [ "$SHELL" != "/bin/bash" ]; then
-    echo "We are in $SHELL. This script assumes BASH. Sorry."
-    exit 1
-fi
-
-echo "This hasn't been implemented yet. Sorry!"
