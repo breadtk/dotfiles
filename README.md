@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 m0rganic's rc files.
 =============
+=======
+breadtk's rc files.
+===================
+>>>>>>> efa827ecd69cc4f54a94c9ec3c6106b27c55d37d
 
 This repository contains various rc files that I use on most systems.
 
 Installation
+<<<<<<< HEAD
 -----------
 To install, simply copy/paste the commands below.
 
@@ -18,10 +24,16 @@ If you've previously installed my rc files, you can update your files by issuing
     ~/.bash_update
 
 Also see
+=======
+>>>>>>> efa827ecd69cc4f54a94c9ec3c6106b27c55d37d
 ------------
-If this topic interests you and you would like more ideas, see the following really great Github page:
+To install, simply download any particular file you're interested in and put it
+into your home directory.
 
-    http://dotfiles.github.com/
+Also see
+--------
+For more ideas, check out the unofficial guide to dotfiles on GitHub:
+http://dotfiles.github.io/
 
 Contributing
 ------------
@@ -30,9 +42,9 @@ Contributing
 3. Commit your changes (`git commit -am "Added Snarkdown"`)
 4. Push to the branch (`git push origin my_markup`)
 5. Open a [Pull Request][1]
-6. Enjoy a refreshing Diet Coke and wait
+6. Enjoy a refreshing pint of Beer
 
-This section was shamelessly stolen from [markup's README][2]
+This section was shamelessly adapted from [markup's README][2]
 
 [1]: http://github.com/github/markup/pulls
 [2]: https://github.com/github/markup/blob/master/README.md

@@ -1,2 +1,4 @@
 startup_message off
 vbell off
+hardstatus on
+hardstatus alwayslastline "%{kr}%Y-%m-%d%C:%s%A | %w"

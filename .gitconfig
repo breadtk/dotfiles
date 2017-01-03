@@ -1,10 +1,10 @@
 [user]
-	name = First Last
-	email = email@address.com
+  name = Osman Surkatty
+  email = osman@surkatty.org
 [github]
-	user = GitHubUsername
+  user = breadtk
 [core]
-	editor = vim
+  editor = vim
 [alias]
   co = checkout
   ci = commit -a
@@ -17,5 +17,5 @@
   lola = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative --all
   ls = ls-files
   
-
-
+[push]
+  default = simple
