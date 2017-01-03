@@ -1,15 +1,9 @@
-<<<<<<< HEAD
 m0rganic's rc files.
 =============
-=======
-breadtk's rc files.
-===================
->>>>>>> efa827ecd69cc4f54a94c9ec3c6106b27c55d37d
 
 This repository contains various rc files that I use on most systems.
 
 Installation
-<<<<<<< HEAD
 -----------
 To install, simply copy/paste the commands below.
 
@@ -23,10 +17,6 @@ If you've previously installed my rc files, you can update your files by issuing
 
     ~/.bash_update
 
-Also see
-=======
->>>>>>> efa827ecd69cc4f54a94c9ec3c6106b27c55d37d
-------------
 To install, simply download any particular file you're interested in and put it
 into your home directory.
 
