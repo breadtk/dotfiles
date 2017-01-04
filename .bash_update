@@ -23,6 +23,9 @@ curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rga
 echo "Downloading vimrc..."
 curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.vimrc -o $HOME/.vimrc
 
+echo "Downloading gitconfig..."
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.gitconfig -o $HOME/.gitconfig
+
 echo "Downloading ssh client config.."
 curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/ssh_config -o $HOME/.ssh/config
 
