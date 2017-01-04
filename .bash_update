@@ -11,6 +11,9 @@ sleep 5
 
 echo "Downloading files from GitHub..."
 
+echo "Downloading bash_profile..."
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bash_profile -o ~/.bash_profile
+
 echo "Downloading bashrc..."
 curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bashrc -o ~/.bashrc
 
