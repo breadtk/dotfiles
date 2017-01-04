@@ -12,16 +12,16 @@ sleep 5
 echo "Downloading files from GitHub..."
 
 echo "Downloading bashrc..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/m0rganic/dotfiles/master/.bashrc -o ~/.bashrc
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bashrc -o ~/.bashrc
 
 echo "Downloading bash_aliases..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/m0rganic/dotfiles/master/.bash_aliases -o ~/.bash_aliases
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bash_aliases -o ~/.bash_aliases
 
 echo "Downloading vimrc..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/m0rganic/dotfiles/master/.vimrc -o ~/.vimrc
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.vimrc -o $HOME/.vimrc
 
 echo "Downloading ssh client config.."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.github.com/m0rganic/dotfiles/master/ssh_config -o ~/.ssh/config
+curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/ssh_config -o $HOME/.ssh/config
 
 if [ -e ~/.ssh/known_hosts ]; then
 	echo "Rehashing known_host file."
@@ -29,8 +29,7 @@ if [ -e ~/.ssh/known_hosts ]; then
 fi
 
 echo "Reloading BASH and cleaning up."
-source ~/.bashrc
+source $HOME/.bashrc
 
 # Clean-up
-#rm -f $0
-#exit 0
+exit 0
