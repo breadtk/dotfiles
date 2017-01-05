@@ -31,8 +31,4 @@ if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
 fi
 
-if [ -f /usr/local/bin/fish ]; then
-  fish
-fi
-
 
