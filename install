@@ -1,41 +1,14 @@
-#!/bin/bash
-# Figure out how to update the files here.
+#!/usr/bin/env bash
 
-if [ "$SHELL" != "/bin/bash" ]; then
-  echo "We are in $SHELL. This script assumes BASH. Sorry."
-  exit 1
-fi
+set -e
 
-echo -e "Setting up rc files for user \"$USER\".\n^C to cancel"
-sleep 5
+CONFIG="install.conf.yaml"
+DOTBOT_DIR="dotbot"
 
-echo "Downloading files from GitHub..."
+DOTBOT_BIN="bin/dotbot"
+BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Downloading bash_profile..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bash_profile -o ~/.bash_profile
+cd "${BASEDIR}"
+git submodule update --init --recursive "${DOTBOT_DIR}"
 
-echo "Downloading bashrc..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bashrc -o ~/.bashrc
-
-echo "Downloading bash_aliases..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.bash_aliases -o ~/.bash_aliases
-
-echo "Downloading vimrc..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.vimrc -o $HOME/.vimrc
-
-echo "Downloading gitconfig..."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/.gitconfig -o $HOME/.gitconfig
-
-echo "Downloading ssh client config.."
-curl --connect-timeout 10 -m 10 --ssl -# https://raw.githubusercontent.com/m0rganic/dotfiles/master/ssh_config -o $HOME/.ssh/config
-
-if [ -e ~/.ssh/known_hosts ]; then
-	echo "Rehashing known_host file."
-	ssh-keygen -H -f $HOME/.ssh/known_hosts 2> /dev/null
-fi
-
-echo "Reloading BASH and cleaning up."
-source $HOME/.bashrc
-
-# Clean-up
-exit 0
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
