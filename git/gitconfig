@@ -1,0 +1,19 @@
+[user]
+  name = Morgan Bickle
+  email = morgan.bickle@gmail.com
+[github]
+  user = m0rganic
+[core]
+  editor = vim
+[alias]
+  co = checkout
+  ci = commit -a
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
+  lol = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative
+  lola = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative --all
+  ls = ls-files
+e
