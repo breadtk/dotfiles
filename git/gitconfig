@@ -1,8 +1,8 @@
 [user]
-  name = Osman Surkatty
-  email = osman@surkatty.org
+  name = Morgan Bickle
+  email = morgan.bickle@gmail.com
 [github]
-  user = breadtk
+  user = m0rganic
 [core]
   editor = vim
 [alias]
@@ -16,6 +16,4 @@
   lol = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative
   lola = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative --all
   ls = ls-files
-  
-[push]
-  default = simple
+e

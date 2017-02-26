@@ -1,28 +1,23 @@
-breadtk's rc files.
-===================
+m0rganic's rc files.
+=============
 
 This repository contains various rc files that I use on most systems.
 
 Installation
-------------
-To install, simply download any particular file you're interested in and put it
-into your home directory.
+-----------
+If you already have all the dependencies:
+```sh
+git clone https://github.com/m0rganic/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+git pull && git submodule init && git submodule update && git submodule status
+bash install
 
-Also see
---------
-For more ideas, check out the unofficial guide to dotfiles on GitHub:
-http://dotfiles.github.io/
-
-Contributing
-------------
-1. Fork it.
-2. Create a branch (`git checkout -b my_markup`)
-3. Commit your changes (`git commit -am "Added Snarkdown"`)
-4. Push to the branch (`git push origin my_markup`)
-5. Open a [Pull Request][1]
-6. Enjoy a refreshing pint of Beer
-
-This section was shamelessly adapted from [markup's README][2]
-
-[1]: http://github.com/github/markup/pulls
-[2]: https://github.com/github/markup/blob/master/README.md
+If you want to download all dependencies then install the dotfiles:
+```sh
+sh -c "$(curl -fsSL
+https://raw.githubusercontent.com/m0rganic/dotfiles/master/scripts/setup-mac.sh)"
+# OS X
+sh -c "$(curl -fsSL
+https://raw.githubusercontent.com/m0rganic/dotfiles/master/scripts/setup-ubuntu.sh)"
+# Debian
+```

@@ -1,0 +1,10 @@
+- clean: ['~']
+
+- link:
+    ~/.bashrc: shell/bashrc
+    ~/.bash_aliases: aliases/bash_aliases
+    ~/.vimrc: vim/vimrc
+    ~/.gitignore: git/gitignore
+    ~/.gitconfig: git/gitconfig
+
+
