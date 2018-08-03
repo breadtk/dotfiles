@@ -1,4 +1,4 @@
-set background=dark             " enable for dark terminals
+set background=light            " enable for dark terminals
 set backspace=indent,eol,start  " ensures backspace works at start and eol.
 set esckeys                     " map missed escape sequences (enables keypad keys)
 set expandtab                   " converts tabs into spaces based
@@ -16,7 +16,7 @@ set noerrorbells                " No error bells please
 set number                      " show line numbers
 set ruler                       " show cursor position in status bar
 set scrolloff=5                 " 5 lines above/below cursor when scrolling
-set shiftwidth=2                " spaces for autoindents
+set shiftwidth=4                " spaces for autoindents
 set showcmd                     " show typed command in status bar
 set showmatch                   " show matching bracket (briefly jump)
 set showmode                    " show mode in status bar (insert/replace/...)
@@ -25,7 +25,7 @@ set smartcase                   " but become case sensitive if you type uppercas
                                 " characters
 set smartindent                 " smart auto indenting
 set smarttab                    " smart tab handling for indenting
-set tabstop=2                   " number of spaces a tab counts for
+set tabstop=4                   " number of spaces a tab counts for
 set textwidth=80                " sets max width to 80 chars before line wrapping.
 set title                       " show file in titlebar
 set ttyfast                     " optimize for fast terminal connections
