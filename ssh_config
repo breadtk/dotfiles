@@ -7,19 +7,24 @@
 host example
     hostname ssh.example.com
     user alice
-    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_ed25519
 
 host example2
     hostname 1.2.3.4
     user bob
 
 host *
+    # Prefer public key based authentication over everything else.
+    PubkeyAuthentication yes
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+
     # These algorithms are supported on OS X 10.10+ and modern Linux distros. If
     # any of them do not work, consult 'man ssh_config' to see your system
-    # specific algorithms. Revisit around ~2016
-    Ciphers aes256-ctr,aes192-ctr,aes128-ctr
-    KexAlgorithms diffie-hellman-group-exchange-sha256
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+    # specific algorithms. Revisit around ~2020
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
     # Improve performance at the cost of CPU
     Compression yes
