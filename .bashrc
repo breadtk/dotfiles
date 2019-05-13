@@ -23,10 +23,13 @@ export MANPAGER="less -X"
 
 # Alias definitions
 if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
+  (. ~/.bash_aliases &)
 fi
 
 # Enable auto completion
 if [ -f /etc/bash_completion ]; then
-  source /etc/bash_completion
+  (. /etc/bash_completion &)
+fi
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    (. $(brew --prefix)/etc/bash_completion &)
 fi
