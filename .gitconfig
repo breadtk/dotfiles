@@ -1,8 +1,8 @@
 [user]
-  name = Osman Surkatty
-  email = osman@surkatty.org
+  name = Example Name Here
+  email = nobody@example.com
 [github]
-  user = breadtk
+  user = example
 [core]
   editor = vim
 [alias]
