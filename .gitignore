@@ -1,3 +1,9 @@
+# Potential credential files and filenames.
+*.pem
+credentials
+id_rsa
+id_ed25519
+
 # Compiled Python files
 *.pyc
 

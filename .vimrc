@@ -51,6 +51,11 @@ if has("autocmd")
   filetype plugin indent on
   " Treat .json files as .js
   autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+
+  " Enable Nerdtree on launch
+  autocmd vimenter * NERDTree
+  " Close vim if the only window left open is a NERDTree
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 endif
 
 " Remap common keys.
