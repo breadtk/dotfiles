@@ -1,6 +1,10 @@
 # If not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
+# Include Homebrew paths
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
 # Colorized prompt
 export PS1="\[$(tput setaf 2)\][\u@\h \W]\\$ \[$(tput sgr0)\]"
 
@@ -23,13 +27,12 @@ export MANPAGER="less -X"
 
 # Alias definitions
 if [ -f ~/.bash_aliases ]; then
-    (. ~/.bash_aliases &)
+    . ~/.bash_aliases
 fi
 
-# Enable auto completion
+# Enable BASH command completion
 if [ -f /etc/bash_completion ]; then
-    (. /etc/bash_completion &)
+    source /etc/bash_completion
 fi
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    (. $(brew --prefix)/etc/bash_completion &)
-fi
+# Homebrew's 'bash-completion' package
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
