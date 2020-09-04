@@ -2,7 +2,7 @@
 # Alias file #
 ##############
 
-# OS X vs Linux specific aliases
+# macOS vs Linux specific aliases
 if [[ $(uname -a) == "Darwin"* ]]; then
     alias f='find . | grep -iE --color $*'
     alias ls='ls -alhG'
@@ -23,7 +23,7 @@ alias mkdir='mkdir -p'               # Make dir but create intermediary dirs
 alias scp='scp -p'                   # Scp with preserving times and recursion
 alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
 alias vi='vim'                       # The one true god
-alias less='/usr/share/vim/vim7[0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
+alias less='/usr/share/vim/vim[7-8][0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
 
 #############
 # Functions #
@@ -50,13 +50,6 @@ x () {
     else
         echo "'$1' is not a valid file to extract."
     fi
-}
-
-# Recursively search for grep pattern derived from $1. Useful when you know of a
-# word or phrase in a file that is contained somewhere in the directory you're
-# currently in.
-g () {
-    grep -r "$1" *;
 }
 
 # ls after every cd.
