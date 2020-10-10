@@ -1,61 +1,103 @@
-set background=light            " enable for dark terminals
-set backspace=indent,eol,start  " ensures backspace works at start and eol.
-set esckeys                     " map missed escape sequences (enables keypad keys)
-set expandtab                   " converts tabs into spaces based
-set fileformat=unix             " file mode is unix
-set hidden                      " remember undo after quitting
-set history=500                 " keep 50 lines of command history
-set hlsearch                    " highlight search (very useful!)
-set ignorecase                  " case insensitive searching
-set incsearch                   " search incremently (search while typing)
+" Basic behavior
+set autoindent                  " Makes identation logic smarter
+set autoread                    " If a file changes on disk, reload it in vim.
+set background=light            " Enable for dark terminals
+set backspace=indent,eol,start  " Ensures backspace works at start and eol.
+set esckeys                     " Map missed escape sequences (enables keypad keys)
+set expandtab                   " Converts tabs into spaces based
+set fileformat=unix             " File mode is unix
+set hidden                      " Remember undo after quitting
+set history=500                 " Keep 500 lines of command history
+set hlsearch                    " Highlight search (very useful!)
+set ignorecase                  " Case insensitive searching
+set incsearch                   " Search incremently (search while typing)
 set laststatus=2                " Always show status line
-set magic                       " change the way backslashes are used in search patterns
-set nocompatible                " use vim-defaults instead of vi-defaults (easier, more
+set magic                       " Change the way backslashes are used in search patterns
+set nocompatible                " Use vim-defaults instead of vi-defaults (easier, more
                                 " user friendly)
-set noerrorbells                " No error bells please
-set number                      " show line numbers
-set ruler                       " show cursor position in status bar
+set noerrorbells                " No error bells
+set number                      " Show line numbers
+set ruler                       " Show cursor position in status bar
 set scrolloff=5                 " 5 lines above/below cursor when scrolling
-set shiftwidth=4                " spaces for autoindents
-set showcmd                     " show typed command in status bar
-set showmatch                   " show matching bracket (briefly jump)
-set showmode                    " show mode in status bar (insert/replace/...)
+set shiftwidth=4                " Spaces for autoindents
+set showcmd                     " Show typed command in status bar
+set showmatch                   " Show matching bracket (briefly jump)
+set showmode                    " Show mode in status bar (insert/replace/...)
 set sidescrolloff=5             " 5 lines left/right
-set smartcase                   " but become case sensitive if you type uppercase
+set smartcase                   " But become case sensitive if you type uppercase
                                 " characters
-set smartindent                 " smart auto indenting
-set smarttab                    " smart tab handling for indenting
-set tabstop=4                   " number of spaces a tab counts for
-set textwidth=80                " sets max width to 80 chars before line wrapping.
-set title                       " show file in titlebar
-set ttyfast                     " optimize for fast terminal connections
-set viminfo='20,\"500           " remember copy registers after quitting in the .viminfo
-                                " file -- 20 jump links, regs up to 500 lines'
-set wildmenu                    " completion with menu
-syntax on                       " enable colors
+set smartindent                 " Smart auto indenting
+set smarttab                    " Smart tab handling for indenting
+set tabstop=4                   " Number of spaces a tab counts for
+set textwidth=80                " Line wrap after 80 chars.
+set title                       " Show file in titlebar
+set ttyfast                     " Optimize for fast terminal connections
+set wildmenu                    " Completion with menu
 
-" A slightly more secure Vim setup
-set nobackup            " no backup~ files
-set noswapfile          " do not use a swap file for the buffer
-set nowritebackup       " prevents Vim from writing an intermediate file before
-                        " attempting to write
 
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^Eterm'
+  set t_Co=16
+endif
+
+
+" Sane default file encoding
+if &encoding ==# 'latin1' && has('gui_running')
+    set encoding=utf-8
+endif
+
+
+" Enable color syntax support
+if has('syntax') && !exists('g:syntax_on')
+    syntax enable
+endif
+
+
+" Delete comment character when joining commented lines
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j 
+endif
+
+
+" A slightly more secure Vim setup. It prevents a bunch of unnecessary files
+" from being written to disk. Some current and past session information will
+" continue to persist though.
+set nobackup            " Do not create backup files (e.g. filename~)
+set noswapfile          " Do not use a swap file for the buffer
+set nowritebackup       " Prevents Vim from writing an intermediate file before
+                        " attempting to write explicitly
+set viminfo='20,\"500   " Remember copy registers after quitting in the 
+                        " ~/.viminfo file -- 20 jump links, regs up to 500
+                        " lines'
 " Keep undo history across sessions, by storing in file.
 silent !mkdir ~/.vim/backups > /dev/null 2>&1
 set undodir=~/.vim/backups
 set undofile
 
+
+" Restore cursor to file position in a previous editing session.
+" Source: Bram Moolenaar via Vim 8.1 defaults.vim file
+augroup resCur
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid, when inside an event handler
+    " (happens when dropping a file on gvim) and for a commit message (it's
+    " likely a different one than last time).
+    autocmd!
+    autocmd BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\""
+      \ | endif
+augroup END
+
+
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
   filetype plugin indent on
-  " Treat .json files as .js
-  autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 
-  " Enable Nerdtree on launch
-  autocmd vimenter * NERDTree
-  " Close vim if the only window left open is a NERDTree
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  " Fix syntax on certain filestypes
+  autocmd BufNewFile,BufRead *.json set filetype=json syntax=javascript
+  autocmd BufNewFile,BufRead *.md set filetype=markdown syntax=markdown
 endif
 
 " Remap common keys.
@@ -67,3 +109,7 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]

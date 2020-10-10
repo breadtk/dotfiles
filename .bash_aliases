@@ -24,6 +24,7 @@ alias scp='scp -p'                   # Scp with preserving times and recursion
 alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
 alias vi='vim'                       # The one true god
 alias less='/usr/share/vim/vim[7-8][0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
+alias wiki='vim -c ":VimwikiIndex"' # Jump straight into vimwiki from cli.
 
 #############
 # Functions #

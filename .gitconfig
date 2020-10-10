@@ -1,17 +1,19 @@
 [user]
-  name = Example Name Here
-  email = nobody@example.com
+    name = osman
+    email = github.com@surkatty.org
 [github]
-  user = example
+    user = breadtk
 [core]
-  editor = vim
+    editor = vim
 [alias]
-  co = checkout
-  ci = commit -a
-  st = status
-  br = branch
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-  type = cat-file -t
-  dump = cat-file -p
+    co = checkout
+    ci = commit -a
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
 [push]
-  default = simple
+    default = simple
+[credential]
+    helper = osxkeychain
