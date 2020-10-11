@@ -90,6 +90,40 @@ augroup resCur
 augroup END
 
 
+" Transparent editing of encrypted files.
+" by Osman Surkatty
+" based on a script by Wouter Hanegraaff
+augroup encrypted
+    " Since Vim 7.4, Vim has supported Blowfish based file encryption. This
+    " augroup will transparently encrypt and decrypt *.enc files using a common
+    " symmetric key pulled from $HOME/.vim/encryption_key.
+    "
+    " Some important things to consider:
+    " * You will use the same password for all *.enc files
+    " * Encryption strength is commensurate to password strength
+    " * Blowfish provides no integrity protection, only confidentiality
+    " * If you lose/corrupt your password file, encrypted files are irrecoverable
+    " * Some state may be plaintext on disk/memory unexpectedly
+    "
+    " For more information about Vim's built-in library, refer to:
+    "   :help encryption
+    "
+	au!
+
+    " Make sure nothing is written to ~/.viminfo while editing an encrypted
+    " file.
+	autocmd BufReadPre,BufNewFile,FileReadPre *.enc set viminfo=
+
+	" Prevent writing of some unencrypted data to disk
+	autocmd BufReadPre,BufNewFile,FileReadPre *.enc set noswapfile noundofile nobackup
+
+    " Read in the encryption key
+    let encryption_key = readfile(expand("$HOME/.vim/encryption_key"), 1)[0]
+
+    " Set encryption key for the session
+	autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
+augroup END
+
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
