@@ -122,6 +122,9 @@ augroup encrypted
 
     " Set encryption key for the session
     autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
+
+    " Unset encryption_key var after file has been read to protect it.
+    autocmd BufReadPost,BufNewFile,FileReadPost *.enc let encryption_key = ""
 augroup END
 
 " Automatic commands
