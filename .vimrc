@@ -117,13 +117,13 @@ augroup encrypted
     " Prevent writing of some unencrypted data to disk
     autocmd BufReadPre,BufNewFile,FileReadPre *.enc set noswapfile noundofile nobackup
 
-    " Read in the encryption key
-    let encryption_key = readfile(expand("$HOME/.vim/encryption_key"), 1)[0]
+    " Read in the key file
+    autocmd BufReadPre,BufNewFile,FileReadPre *.enc let encryption_key = readfile(expand("$HOME/.vim/encryption_key"), 1)[0]
 
     " Set encryption key for the session
     autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
 
-    " Unset encryption_key var after file has been read to protect it.
+    " Unset encryption_key var after file has been read to protect it
     autocmd BufReadPost,BufNewFile,FileReadPost *.enc let encryption_key = ""
 augroup END
 
