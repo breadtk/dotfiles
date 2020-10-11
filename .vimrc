@@ -149,4 +149,4 @@ command Q q
 
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+                      \ 'syntax': 'markdown', 'ext': '.md.enc'}]
