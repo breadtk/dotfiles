@@ -108,20 +108,20 @@ augroup encrypted
     " For more information about Vim's built-in library, refer to:
     "   :help encryption
     "
-	au!
+    au!
 
     " Make sure nothing is written to ~/.viminfo while editing an encrypted
     " file.
-	autocmd BufReadPre,BufNewFile,FileReadPre *.enc set viminfo=
+    autocmd BufReadPre,BufNewFile,FileReadPre *.enc set viminfo=
 
-	" Prevent writing of some unencrypted data to disk
-	autocmd BufReadPre,BufNewFile,FileReadPre *.enc set noswapfile noundofile nobackup
+    " Prevent writing of some unencrypted data to disk
+    autocmd BufReadPre,BufNewFile,FileReadPre *.enc set noswapfile noundofile nobackup
 
     " Read in the encryption key
     let encryption_key = readfile(expand("$HOME/.vim/encryption_key"), 1)[0]
 
     " Set encryption key for the session
-	autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
+    autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
 augroup END
 
 " Automatic commands
