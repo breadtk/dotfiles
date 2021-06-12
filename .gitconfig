@@ -1,8 +1,6 @@
 [user]
     name = osman
     email = github.com@surkatty.org
-[github]
-    user = breadtk
 [core]
     editor = vim
 [alias]
@@ -16,5 +14,7 @@
 [push]
     default = simple
 [credential "https://github.com"]
-	username = breadtk
-	password = # Retrieve from https://github.com/settings/tokens
+    # Github uses "Personal access tokens" as passwords for their HTTPS
+    # protocol. You can retrieve it from: https://github.com/settings/tokens
+    username = breadtk
+    password = ghp_EXAMPLEEXAMPLEEXAMPLE
