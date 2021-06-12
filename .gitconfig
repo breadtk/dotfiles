@@ -15,5 +15,6 @@
     dump = cat-file -p
 [push]
     default = simple
-[credential]
-    helper = osxkeychain
+[credential "https://github.com"]
+	username = breadtk
+	password = # Retrieve from https://github.com/settings/tokens
