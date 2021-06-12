@@ -1,9 +1,9 @@
-# To use this file, copy it to ~/.ssh/config
+# To use this config as a user, copy it to ~/.ssh/config
+# To use this config host-wide, copy it to /etc/ssh/ssh_config
 #
-# This file needs to be sorted from the most specific to least specific hosts.
-# This is the order in which OpenSSH will evaluate it. If multiple configuration
-# values match, only the first matched value is used and the remainder is
-# ignored.
+# This file is parsed from the most specific to least specific hosts. This is
+# the order in which OpenSSH will evaluate it. If multiple configuration values
+# match, only the first matched value is used and the remainder is ignored.
 
 host example
     hostname ssh.example.com
@@ -20,7 +20,7 @@ host *
     PasswordAuthentication no
     ChallengeResponseAuthentication no
 
-    # These algorithms are supported on OS X 10.15+ and Debian 10.4+. If any of
+    # These algorithms are supported on modern operating systems. If any of
     # these choices do not work, consult your local man page ('man ssh_config')
     # to see your system's support.
     #
