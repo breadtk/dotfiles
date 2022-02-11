@@ -148,5 +148,5 @@ command W w
 command Q q
 
 " Vimwiki
-let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/',
+let g:vimwiki_list = [{'path': '~/blackhole/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md.enc'}]
