@@ -13,8 +13,8 @@
     dump = cat-file -p
 [push]
     default = simple
-[credential "https://github.com"]
-    # Github uses "Personal access tokens" as passwords for their HTTPS
-    # protocol. You can retrieve it from: https://github.com/settings/tokens
-    username = breadtk
-    password = ghp_EXAMPLEEXAMPLEEXAMPLE
+
+# Github uses "Personal Access Tokens" as passwords for their HTTPS protocol.
+# You can generate it at: https://github.com/settings/tokens
+[url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
+    insteadOf = https://github.com
