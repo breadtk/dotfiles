@@ -21,6 +21,7 @@ export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000 # Line numbers to save
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:"
+shopt -s histappend     # Always append, don't clobber the history file.
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
@@ -60,3 +61,22 @@ if [ -f "${SSH_ENV}" ]; then
 else
      start_agent;
 fi
+
+
+
+# Various commands for $PROMPT_COMMAND.
+__bashrc_prompt_command() {
+    # Catch exit code
+    local ec=$?
+
+    # Display exit code of last command in red text unless zero
+    if [ $ec -ne 0 ];then
+        echo -e "\033[31;1m[$ec]\033[0m"
+    fi
+
+    # Maintain a merged history across all shells.
+    history -a
+    history -c
+    history -r
+}
+PROMPT_COMMAND="__bashrc_prompt_command"
