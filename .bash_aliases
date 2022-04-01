@@ -25,6 +25,8 @@ alias sudo='sudo '                   # Allows aliased commands to carry over whe
 alias vi='vim'                       # The one true god
 alias less='/usr/share/vim/vim[7-8][0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
 alias wiki='vim -c ":VimwikiIndex"' # Jump straight into vimwiki from cli.
+alias weather='curl http://wttr.in/Seattle?FQn' # Terminal weather. More options
+                                               # via /:help request.
 
 #############
 # Functions #
