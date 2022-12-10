@@ -40,7 +40,7 @@ host *
     ControlMaster no
     ControlPath none
 
-    # Obfuscate ~/.ssh/known_host file entries. Hashed entries are reversible
+    # Obfuscate 'known_hosts' entries using SHA1.
     HashKnownHosts yes
 
     # Prevent disconnects
