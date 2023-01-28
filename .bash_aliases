@@ -19,14 +19,14 @@ alias df='df -h'                     # Readable sizes
 alias du='du -h'                     # Readable sizes
 alias fuck='sudo $(history -p \!\!)' # Retry last command via sudo
 alias grep='grep -i --color=auto'    # Enable color and case insensitivity
+alias less='/usr/share/vim/vim[7-8][0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
 alias mkdir='mkdir -p'               # Make dir but create intermediary dirs
 alias scp='scp -p'                   # Scp with preserving times and recursion
 alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
 alias vi='vim'                       # The one true god
-alias less='/usr/share/vim/vim[7-8][0-9]/macros/less.sh' # Leverage Vim for syntax highlighting purposes.
+alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
+                                                 # via /:help request.
 alias wiki='vim -c ":VimwikiIndex"' # Jump straight into vimwiki from cli.
-alias weather='curl http://wttr.in/Seattle?FQn' # Terminal weather. More options
-                                               # via /:help request.
 
 #############
 # Functions #
