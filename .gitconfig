@@ -1,8 +1,8 @@
 [user]
     name = osman
-    email = github.com@surkatty.org
+    email = osman@surkatty.org
 [core]
-    editor = vim
+    editor = nvim
 [alias]
     co = checkout
     ci = commit -a
