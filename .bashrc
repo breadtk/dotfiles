@@ -14,7 +14,8 @@ export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # <3
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 
 # BASH history options 
 export HISTFILE=~/.bash_history
@@ -31,10 +32,9 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Enable BASH command completion
-if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-fi
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
 
 # Homebrew's 'bash-completion' package
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -61,7 +61,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
      start_agent;
 fi
-
 
 
 # Various commands for $PROMPT_COMMAND.

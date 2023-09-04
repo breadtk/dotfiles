@@ -14,6 +14,7 @@ set ignorecase                  " Case insensitive searching
 set incsearch                   " Search incremently (search while typing)
 set laststatus=2                " Always show status line
 set magic                       " Change the way backslashes are used in search patterns
+set mouse=a                     " Enable mouse support in all modes.
 set nocompatible                " Use vim-defaults instead of vi-defaults (easier, more
                                 " user friendly)
 set noerrorbells                " No error bells
@@ -29,35 +30,19 @@ set smartcase                   " But become case sensitive if you type uppercas
                                 " characters
 set smartindent                 " Smart auto indenting
 set smarttab                    " Smart tab handling for indenting
+set t_Co=256                    " Colors
 set tabstop=4                   " Number of spaces a tab counts for
 set textwidth=80                " Line wrap after 80 chars.
 set title                       " Show file in titlebar
 set wildmenu                    " Completion with menu
 
-
-" Allow color schemes to do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^Eterm'
-  set t_Co=16
-endif
-
-
 " Sane default file encoding
-if &encoding ==# 'latin1' && has('gui_running')
+if &encoding ==# 'latin1'
     set encoding=utf-8
 endif
 
-
-" Enable color syntax support
-if has('syntax') && !exists('g:syntax_on')
-    syntax enable
-endif
-
-
-" Delete comment character when joining commented lines
-if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j 
-endif
-
+syntax enable " Enable color syntax support
+filetype plugin indent on " Enable file type detection
 
 " A slightly more secure Nvim setup. It prevents a bunch of unnecessary files
 " from being written to disk. Some current and past session information will
@@ -68,12 +53,10 @@ set nowritebackup       " Prevents Nvim from writing an intermediate file before
                         " attempting to write explicitly
 set shada='20,\"500     " Remember copy registers after quitting 20 jump links,
                         " regs up to 500 lines'
-
 " Keep undo history across sessions, by storing in file.
 silent !mkdir ~/.nvim/backups > /dev/null 2>&1
 set undodir=~/.nvim/backups
 set undofile
-
 
 " Restore cursor to file position in a previous editing session.
 " Source: Bram Moolenaar via Vim 8.1 defaults.vim file
@@ -89,52 +72,9 @@ augroup resCur
       \ | endif
 augroup END
 
-
-" Transparent editing of encrypted files.
-" by Osman Surkatty
-" based on a script by Wouter Hanegraaff
-augroup encrypted
-    " Since Vim 7.4, Vim has supported Blowfish based file encryption. This
-    " augroup will transparently encrypt and decrypt *.enc files using a common
-    " symmetric key pulled from $HOME/.vim/encryption_key.
-    "
-    " Some important things to consider:
-    " * You will use the same password for all *.enc files
-    " * Encryption strength is commensurate to password strength
-    " * Blowfish provides no integrity protection, only confidentiality
-    " * If you lose/corrupt your password file, encrypted files are irrecoverable
-    " * Some state may be plaintext on disk/memory unexpectedly
-    "
-    " For more information about Vim's built-in library, refer to:
-    "   :help encryption
-    "
-    au!
-
-    " Make sure nothing is written to 'shada' while editing an encrypted file.
-    autocmd BufReadPre,BufNewFile,FileReadPre *.enc set shada=
-
-    " Prevent writing of some unencrypted data to disk
-    autocmd BufReadPre,BufNewFile,FileReadPre *.enc set noswapfile noundofile nobackup
-
-    " Read in the key file
-    autocmd BufReadPre,BufNewFile,FileReadPre *.enc let encryption_key = readfile(expand("$HOME/.nvim/encryption_key"), 1)[0]
-
-    " Set encryption key for the session
-    autocmd BufReadPre,BufNewFile,FileReadPre *.enc execute "set key=".encryption_key 
-
-    " Unset encryption_key var after file has been read to protect it
-    autocmd BufReadPost,BufNewFile,FileReadPost *.enc let encryption_key = ""
-augroup END
-
-" Automatic commands
-if has("autocmd")
-  " Enable file type detection
-  filetype plugin indent on
-
-  " Fix syntax on certain filestypes
-  autocmd BufNewFile,BufRead *.json set filetype=json syntax=javascript
-  autocmd BufNewFile,BufRead *.md set filetype=markdown syntax=markdown
-endif
+" Fix syntax on certain filestypes
+autocmd BufNewFile,BufRead *.json set filetype=json syntax=javascript
+autocmd BufNewFile,BufRead *.md set filetype=markdown syntax=markdown
 
 " Remap common keys.
 nore ; :
