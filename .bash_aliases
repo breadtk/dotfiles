@@ -25,9 +25,8 @@ alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
 alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
 alias vi='nvim'                      # The one true god
 alias vim='nvim'
-alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
-                                                 # via /:help request.
-alias wiki='vim -c ":VimwikiIndex"' # Jump straight into vimwiki from cli.
+alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More
+                                                 # options via /:help request.
 
 #############
 # Functions #
