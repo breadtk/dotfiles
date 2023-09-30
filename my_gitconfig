@@ -1,3 +1,4 @@
+# Place this file at ~/.gitconfig
 [user]
     name = osman
     email = osman@surkatty.org
