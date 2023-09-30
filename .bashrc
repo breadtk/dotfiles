@@ -8,7 +8,7 @@ export PATH="/usr/local/bin:$PATH"
 # Colorized prompt
 export PS1="\[$(tput setaf 2)\][\u@\h \W]\\$ \[$(tput sgr0)\]"
 
-# Enable color elsewhere
+# Enable color terminal support
 export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -17,8 +17,15 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 export VISUAL=nvim
 export EDITOR=nvim
 
+# XDG Base Directory support
+# Source: https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+
 # BASH history options 
-export HISTFILE=~/.bash_history
+[ ! -d "$XDG_CACHE_HOME/bash/" ] && mkdir "$XDG_CACHE_HOME/bash/"
+export HISTFILE=$XDG_CACHE_HOME/bash/.bash_history
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000 # Line numbers to save
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:"
@@ -38,7 +45,6 @@ fi
 
 # Homebrew's 'bash-completion' package
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
 
 # Ensure ssh-agent is always running on logon.
 # Source: http://mah.everybody.org/docs/ssh
