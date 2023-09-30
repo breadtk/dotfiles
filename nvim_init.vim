@@ -54,8 +54,8 @@ set nowritebackup       " Prevents Nvim from writing an intermediate file before
 set shada='20,\"500     " Remember copy registers after quitting 20 jump links,
                         " regs up to 500 lines'
 " Keep undo history across sessions, by storing in file.
-silent !mkdir ~/.nvim/backups > /dev/null 2>&1
-set undodir=~/.nvim/backups
+silent !mkdir ~/.cache/nvim/backups > /dev/null 2>&1
+set undodir=~/.cache/nvim/backups
 set undofile
 
 " Restore cursor to file position in a previous editing session.

@@ -47,3 +47,6 @@ host *
     TCPKeepAlive yes
     ServerAliveInterval 5
     ServerAliveCountMax 6
+
+    # Support 1Password socket.
+	IdentityAgent ~/.1password/agent.sock
