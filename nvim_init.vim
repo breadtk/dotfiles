@@ -15,8 +15,7 @@ set incsearch                   " Search incremently (search while typing)
 set laststatus=2                " Always show status line
 set magic                       " Change the way backslashes are used in search patterns
 set mouse=a                     " Enable mouse support in all modes.
-set nocompatible                " Use vim-defaults instead of vi-defaults (easier, more
-                                " user friendly)
+set clipboard=unnamedplus       " Use system clipboard for yanks.
 set noerrorbells                " No error bells
 set number                      " Show line numbers
 set ruler                       " Show cursor position in status bar
