@@ -4,12 +4,9 @@
 
 # macOS vs Linux specific aliases
 if [[ $(uname -a) == "Darwin"* ]]; then
-    alias f='find . | grep -iE --color $*'
     alias ls='ls -alhG'
-    alias rm='srm -fsz' # Not forensically sound, but better than nothing.
 else
-    alias f='find . | grep -iP --color $*'
-    alias ls='ls -alh --color=auto'
+    alias ls='ls -alh --color=always'
 fi
 
 ###################
@@ -25,8 +22,8 @@ alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
                                      # copy recursively.
 alias sudo='sudo '                   # Allows aliased commands to carry over
                                      # when sudoing.
-alias vi='nvim'                      # The one true god
-alias vim='nvim'
+alias vi='v'                         # The one true god
+alias vim='v'
 alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
                                                  # via /:help request.
 
@@ -87,8 +84,6 @@ c () {
 }
 
 
-
-# Extract v2.
 x () {
     if [[ -f "$1" ]]; then
         case $1 in
@@ -128,50 +123,32 @@ x () {
 }
 
 
-# Extract just about any compressed file using: x $1
-x2 () {
-    if [[ -f "$1" ]]; then
-        case $1 in
-            *.7z)        7za x "$1" ;;
-            *.Z)         uncompress "$1" ;;
-            *.bz2)       bunzip2 "$1" ;;
-            *.gz)        gunzip "$1" ;;
-            *.rar)       rar x "$1" ;;
-            *.tar)       tar xvf "$1" ;;
-            *.tar.bz2)   tar xjf "$1" ;;
-            *.tar.gz)    tar xzf "$1" ;;
-            *.tbz2)      tar xjf "$1" ;;
-            *.tgz)       tar xzf "$1" ;;
-            *.xz)        xz -d "$1" ;;
-            *.zip)       unzip "$1" ;;
-            *)           echo "'$1' cannot be extracted via x()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file to extract."
-    fi
-}
-
 # ls after every cd.
 cd () {
     builtin cd "$@" && ls;
 }
 
-# Edit file with nvim or use fzf to look for it, and then open it.
-v () {
-    if [ -f "$1" ]; then  # Check if the parameter is a file that exists
-        $EDITOR "$1"  # Open the file directly with nvim
+# Edit file with nvim or use fzf, through fif(), to look for it, and then open it.
+v() {
+    if [ -f "$1" ]; then
+        $EDITOR "$1"
     else
         local file
-        file=$(fif "$1")  # Use fif() function to find and select a file
+        # Use fif() function to find and select a file
+        file=$(fif "$1")
         if [[ -n $file ]]; then
-            $EDITOR "$file"  # Open the selected file with nvim
+            $EDITOR "$file"
         else
-            echo "No file selected or found."
+            # If no file is selected or found, open a new file with the given
+            # name in the editor
+            $EDITOR "$1"
         fi
     fi
 }
 
+
+# Search for files with fzf and ripgrep.
 fif() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-  rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+  rg --files-with-matches --no-messages "$1" | fzf --query="$1" --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
