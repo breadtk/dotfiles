@@ -1,5 +1,3 @@
-" Save in ~/.config/nvim/init.vim
-
 " Basic behavior
 set autoindent                  " Makes identation logic smarter
 set autoread                    " If a file changes on disk, reload it in vim.
@@ -53,8 +51,8 @@ set nowritebackup       " Prevents Nvim from writing an intermediate file before
 set shada='20,\"500     " Remember copy registers after quitting 20 jump links,
                         " regs up to 500 lines'
 " Keep undo history across sessions, by storing in file.
-silent !mkdir ~/.cache/nvim/backups > /dev/null 2>&1
-set undodir=~/.cache/nvim/backups
+silent !mkdir $XDG_CACHE_HOME/nvim/backups > /dev/null 2>&1
+set undodir=$XDG_CACHE_HOME/nvim/backups
 set undofile
 
 " Restore cursor to file position in a previous editing session.
