@@ -21,4 +21,4 @@
     username = breadtk
     password = ghp_EXAMPLEEXAMPLEEXAMPLE
 [url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
-	insteadOf = https://github.com
+    insteadOf = https://github.com
