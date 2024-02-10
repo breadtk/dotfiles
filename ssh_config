@@ -13,6 +13,7 @@ host example
 host example2
     hostname 1.2.3.4
     user bob
+    IdentityFile ~/.1password/agent.sock
 
 host *
     # Prefer public key based authentication over everything else.
