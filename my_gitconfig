@@ -1,4 +1,4 @@
-# Place this file at ~/.gitconfig
+# ~/.gitconfig
 [user]
     name = osman
     email = osman@surkatty.org
@@ -15,7 +15,10 @@
 [push]
     default = simple
 
-# Github uses "Personal Access Tokens" as passwords for their HTTPS protocol.
-# You can generate it at: https://github.com/settings/tokens
+[credential "https://github.com"]
+    # Github uses "Personal access tokens" as passwords for their HTTPS
+    # protocol. You can retrieve it from: https://github.com/settings/tokens
+    username = breadtk
+    password = ghp_EXAMPLEEXAMPLEEXAMPLE
 [url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
-    insteadOf = https://github.com
+	insteadOf = https://github.com
