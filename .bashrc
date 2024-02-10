@@ -1,6 +1,11 @@
 # If not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
+# Automatically start or attach to a tmux session if not already in one.
+if [ -z "$TMUX" ]; then
+  tmux new-session -A -s default
+fi
+
 # Include Homebrew paths
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/bin:$PATH"
