@@ -37,7 +37,7 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:"
 shopt -s histappend     # Always append, don't clobber the history file.
 
 # Don’t clear the screen after quitting a manual page
-export MANPAGER="less -X"
+export MANPAGER="less -X --incsearch --use-color"
 
 # Alias definitions
 if [ -f ~/.bash_aliases ]; then
