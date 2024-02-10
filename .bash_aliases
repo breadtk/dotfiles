@@ -25,8 +25,8 @@ alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
 alias sudo='sudo '                   # Allows aliased commands to carry over when sudoing.
 alias vi='nvim'                      # The one true god
 alias vim='nvim'
-alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More
-                                                 # options via /:help request.
+alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
+                                                 # via /:help request.
 
 #############
 # Functions #
@@ -60,3 +60,22 @@ cd () {
     builtin cd "$@" && ls;
 }
 
+# Edit file with nvim or use fzf to look for it, and then open it.
+v () {
+    if [ -f "$1" ]; then  # Check if the parameter is a file that exists
+        $EDITOR "$1"  # Open the file directly with nvim
+    else
+        local file
+        file=$(fif "$1")  # Use fif() function to find and select a file
+        if [[ -n $file ]]; then
+            $EDITOR "$file"  # Open the selected file with nvim
+        else
+            echo "No file selected or found."
+        fi
+    fi
+}
+
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+}
