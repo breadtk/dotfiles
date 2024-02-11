@@ -11,7 +11,7 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 # Colorized prompt
-export PS1="\[$(tput setaf 2)\][\u@\h \W]\\$ \[$(tput sgr0)\]"
+export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
 # Enable color terminal support
 export TERM=xterm-256color
@@ -41,22 +41,23 @@ export MANPAGER="less -X --incsearch --use-color"
 
 # Alias definitions
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    source ~/.bash_aliases
 fi
 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
+
 
 # Homebrew's 'bash-completion' package
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"
 
 # Various commands for $PROMPT_COMMAND.
 __bashrc_prompt_command() {
     # Catch exit code
     local ec=$?
 
-    # Display exit code of last command in red text unless zero
+    # Display exit code of last command in red text, unless zero.
     if [ $ec -ne 0 ];then
         echo -e "\033[31;1m[$ec]\033[0m"
     fi
