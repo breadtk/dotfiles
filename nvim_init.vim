@@ -1,8 +1,11 @@
-" Basic behavior
+"""""""""""
+" General "
+"""""""""""
 set autoindent                  " Makes identation logic smarter
 set autoread                    " If a file changes on disk, reload it in vim.
-set background=light            " Enable for dark terminals
+set background=light            " Must be set before syntax enablement per help: page.
 set backspace=indent,eol,start  " Ensures backspace works at start and eol.
+set clipboard=unnamedplus       " Use system clipboard for yanks.
 set expandtab                   " Converts tabs into spaces based
 set fileformat=unix             " File mode is unix
 set hidden                      " Remember undo after quitting
@@ -13,7 +16,6 @@ set incsearch                   " Search incremently (search while typing)
 set laststatus=2                " Always show status line
 set magic                       " Change the way backslashes are used in search patterns
 set mouse=a                     " Enable mouse support in all modes.
-set clipboard=unnamedplus       " Use system clipboard for yanks.
 set noerrorbells                " No error bells
 set number                      " Show line numbers
 set ruler                       " Show cursor position in status bar
@@ -38,10 +40,11 @@ if &encoding ==# 'latin1'
     set encoding=utf-8
 endif
 
-syntax enable " Enable color syntax support
-filetype plugin indent on " Enable file type detection
+filetype plugin indent on       " Enable file type detection
+syntax enable                   " Enable color syntax support
 
-" A slightly more secure Nvim setup. It prevents a bunch of unnecessary files
+"
+" A slightly more secure Nvim setup as it prevents a bunch of unnecessary files
 " from being written to disk. Some current and past session information will
 " continue to persist though.
 set nobackup            " Do not create backup files (e.g. filename~)
@@ -54,6 +57,7 @@ set shada='20,\"500     " Remember copy registers after quitting 20 jump links,
 silent !mkdir $XDG_CACHE_HOME/nvim/backups > /dev/null 2>&1
 set undodir=$XDG_CACHE_HOME/nvim/backups
 set undofile
+
 
 " Restore cursor to file position in a previous editing session.
 " Source: Bram Moolenaar via Vim 8.1 defaults.vim file
@@ -69,16 +73,16 @@ augroup resCur
       \ | endif
 augroup END
 
-" Fix syntax on certain filestypes
+" Force syntax on specified filetypes
 autocmd BufNewFile,BufRead *.json set filetype=json syntax=javascript
 autocmd BufNewFile,BufRead *.md set filetype=markdown syntax=markdown
 
 " Remap common keys.
-nore ; :
 nore , ;
+nore ; :
 
 " Fix common typos.
+command Q q
+command W w
 command WQ wq
 command Wq wq
-command W w
-command Q q
