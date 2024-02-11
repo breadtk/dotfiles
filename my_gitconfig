@@ -1,9 +1,4 @@
 # ~/.gitconfig
-[user]
-    name = osman
-    email = osman@surkatty.org
-[core]
-    editor = nvim
 [alias]
     co = checkout
     ci = commit -a
@@ -12,13 +7,19 @@
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     type = cat-file -t
     dump = cat-file -p
-[push]
-    default = simple
-
+[color]
+    ui = always
+[core]
+    editor = nvim
 [credential "https://github.com"]
     # Github uses "Personal access tokens" as passwords for their HTTPS
     # protocol. You can retrieve it from: https://github.com/settings/tokens
     username = breadtk
     password = ghp_EXAMPLEEXAMPLEEXAMPLE
+[push]
+    default = simple
+[user]
+    name = osman
+    email = osman@surkatty.org
 [url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
     insteadOf = https://github.com
