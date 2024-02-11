@@ -18,6 +18,7 @@ alias fuck='sudo $(history -p \!\!)' # Retry last command via sudo
 alias grep='grep -i --color=auto'    # Enable color and case insensitivity
 alias less='less --incsearch --use-color'
 alias mkdir='mkdir -p'               # Make dir and all intermediary dirs
+alias rg='rg -i'                     # Enable case insensitivity
 alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
                                      # copy recursively.
 alias sudo='sudo '                   # Allows aliased commands to carry over
@@ -128,14 +129,14 @@ cd () {
     builtin cd "$@" && ls;
 }
 
-# Edit file with nvim or use fzf, through fif(), to look for it, and then open it.
+# Edit file with nvim or use fzf, through f(), to look for it, and then open it.
 v() {
     if [ -f "$1" ]; then
         $EDITOR "$1"
     else
         local file
-        # Use fif() function to find and select a file
-        file=$(fif "$1")
+        # Use f() function to find and select a file
+        file=$(f "$1")
         if [[ -n $file ]]; then
             $EDITOR "$file"
         else
@@ -147,8 +148,8 @@ v() {
 }
 
 
-# Search for files with fzf and ripgrep.
-fif() {
+# Search for files matchin particular filenames using fzf and ripgrep.
+f() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   rg --files-with-matches --no-messages "$1" | fzf --query="$1" --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
