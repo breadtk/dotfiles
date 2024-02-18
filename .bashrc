@@ -14,7 +14,7 @@ export PATH="/usr/local/bin:$PATH"
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
 # Enable color terminal support
-export TERM=xterm-256color
+export TERM=screen-256color
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
