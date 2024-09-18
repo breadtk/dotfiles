@@ -129,27 +129,50 @@ cd () {
     builtin cd "$@" && ls;
 }
 
-# Edit file with nvim or use fzf, through f(), to look for it, and then open it.
-v() {
-    if [ -f "$1" ]; then
-        $EDITOR "$1"
-    else
-        local file
-        # Use f() function to find and select a file
-        file=$(f "$1")
-        if [[ -n $file ]]; then
-            $EDITOR "$file"
-        else
-            # If no file is selected or found, open a new file with the given
-            # name in the editor
-            $EDITOR "$1"
-        fi
-    fi
-}
-
 
 # Search for files matching particular filenames using fzf and ripgrep.
 f() {
-  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-  rg --files-with-matches --no-messages "$1" | fzf --query="$1" --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+  if [ "$#" -eq 0 ]; then
+    echo "Need a string to search for!"
+    return 1
+  fi
+  rg --files-with-matches --hidden --no-ignore --no-messages "$1" | \
+  fzf --query="$1" \
+      --preview "highlight -O ansi -l {} 2> /dev/null | \
+                 rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' {} || \
+                 rg --ignore-case --pretty --context 10 '$1' {}"
+}
+
+# Edit file with nvim or use fzf, through f(), to look for it, and then open it.
+v() {
+    if [ -n "$1" ] && [ -f "$1" ]; then
+        # If the file exists, open it
+        $EDITOR "$1"
+    else
+        local pattern="$1"
+        # Expand tilde to $HOME if present
+        pattern="${pattern/#\~/$HOME}"
+
+        # Use fd if available for better performance
+        if command -v fd >/dev/null 2>&1; then
+            local file
+            # Use fd to find files matching the pattern, including hidden files
+            file=$(fd --hidden --no-ignore --type f --glob "$(basename "$pattern")*" "$(dirname "$pattern")" 2>/dev/null | \
+                   fzf --query="$pattern" \
+                       --preview "highlight -O ansi -l {} 2> /dev/null || cat {}")
+        else
+            # Fallback to find if fd is not available
+            local file
+            file=$(find "$(dirname "$pattern")" -type f -iname "$(basename "$pattern")*" 2>/dev/null | \
+                   fzf --query="$pattern" \
+                       --preview "highlight -O ansi -l {} 2> /dev/null || cat {}")
+        fi
+
+        if [[ -n $file ]]; then
+            $EDITOR "$file"
+        else
+            # If no file is selected, open a new file with the given name
+            $EDITOR "$1"
+        fi
+    fi
 }
