@@ -15,11 +15,12 @@
     # Github uses "Personal access tokens" as passwords for their HTTPS
     # protocol. You can retrieve it from: https://github.com/settings/tokens
     username = breadtk
-    password = ghp_EXAMPLEEXAMPLEEXAMPLE
+#    password = ghp_EXAMPLEEXAMPLEEXAMPLE
 [push]
     default = simple
 [user]
     name = osman
     email = osman@surkatty.org
-[url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
-    insteadOf = https://github.com
+
+#[url "https://breadtk:ghp_EXAMPLEEXAMPLEEXAMPLE@github.com"]
+#    insteadOf = https://github.com

@@ -1,20 +1,134 @@
-# Potential credential files and filenames.
+################################
+# Ignore system-specific files #
+################################
+.history
+.local
+.cache
+
+
+#############
+# Syncthing #
+#############
+*.sync-conflict-*
+.stversions
+
+
+##############################
+# Potential credential files #
+##############################
 *.pem
 credentials
 id_rsa
 id_ed25519
+secring.*
 
-# Compiled Python files
-*.pyc
 
-# Folder view configuration files
-.DS_Store
-Desktop.ini
+##########
+# Python #
+##########
+## Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Thumbnail cache files
+## C extensions
+*.so
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+.Python
+.eggs/
+.installed.cfg
+MANIFEST
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+share/python-wheels/
+var/
+wheels/
+
+## Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# PyBuilder
+.pybuilder/
+target/
+
+## Environments
+.env
+.venv
+ENV/
+env.bak/
+env/
+pyvenv.cfg
+venv.bak/
+venv/
+
+## mkdocs documentation
+/site
+
+## Ruff 
+.ruff_cache/
+
+
+###############
+# Vim related.#
+###############
+## Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+## Session
+Session.vim
+Sessionx.vim
+
+## Temporary
+.netrwhist
+*~
+
+
+############
+# OS stuff #
+############
+## Log files created by default by the nohup command
+nohup.out
+
+## Thumbnail cache files
 ._*
 Thumbs.db
 
-# Files that might appear on external disks
+## Misc. OS Bloat
+.AppleDouble
+.DS_Store
+.DS_Store
+.DocumentRevisions-V100
+.LSOverride
 .Spotlight-V100
+.TemporaryItems
+.Trash-*
 .Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.fseventsd
+Desktop.ini

@@ -23,8 +23,8 @@ alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
                                      # copy recursively.
 alias sudo='sudo '                   # Allows aliased commands to carry over
                                      # when sudoing.
-alias vi='v'                         # The one true god
-alias vim='v'
+alias vi='nvim'                         # The one true god
+alias vim='nvim'
 alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
                                                  # via /:help request.
 
@@ -149,36 +149,3 @@ f() {
 }
 
 
-# Edit file with nvim or use fzf, through f(), to look for it, and then open it.
-v() {
-    if [ -n "$1" ] && [ -f "$1" ]; then
-        # If the file exists, open it
-        $EDITOR "$1"
-    else
-        local pattern="$1"
-        # Expand tilde to $HOME if present
-        pattern="${pattern/#\~/$HOME}"
-
-        # Use fd if available for better performance
-        if command -v fd >/dev/null 2>&1; then
-            local file
-            # Use fd to find files matching the pattern, including hidden files
-            file=$(fd --hidden --no-ignore --type f --glob "$(basename "$pattern")*" "$(dirname "$pattern")" 2>/dev/null | \
-                   fzf --query="$pattern" \
-                       --preview "highlight -O ansi -l {} 2> /dev/null || cat {}")
-        else
-            # Fallback to find if fd is not available
-            local file
-            file=$(find "$(dirname "$pattern")" -type f -iname "$(basename "$pattern")*" 2>/dev/null | \
-                   fzf --query="$pattern" \
-                       --preview "highlight -O ansi -l {} 2> /dev/null || cat {}")
-        fi
-
-        if [[ -n $file ]]; then
-            $EDITOR "$file"
-        else
-            # If no file is selected, open a new file with the given name
-            $EDITOR "$1"
-        fi
-    fi
-}

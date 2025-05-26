@@ -13,11 +13,6 @@ export PATH="/usr/local/bin:$PATH"
 # Colorized prompt
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
-# Enable color terminal support
-export TERM=screen-256color
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
-
 # <3
 export VISUAL=nvim
 export EDITOR=nvim
@@ -68,3 +63,5 @@ __bashrc_prompt_command() {
     history -r
 }
 PROMPT_COMMAND="__bashrc_prompt_command"
+
+. "$HOME/.local/share/../bin/env"
