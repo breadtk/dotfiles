@@ -12,21 +12,22 @@ fi
 ###################
 # General aliases #
 ###################
-alias df='df -h'                     # Readable sizes
-alias du='du -h'                     # Readable sizes
-alias fuck='sudo $(history -p \!\!)' # Retry last command via sudo
-alias grep='grep -i --color=auto'    # Enable color and case insensitivity
-alias less='less --incsearch --use-color'
-alias mkdir='mkdir -p'               # Make dir and all intermediary dirs
-alias rg='rg -i'                     # Enable case insensitivity
-alias scp='scp -Cpr'                 # Compress, preserve file metadata, and
-                                     # copy recursively.
-alias sudo='sudo '                   # Allows aliased commands to carry over
-                                     # when sudoing.
-alias vi='nvim'                         # The one true god
+alias df='df -h'                                 # Readable sizes
+alias du='du -h'                                 # Readable sizes
+alias fuck='sudo $(history -p \!\!)'             # Retry last command via sudo
+alias grep='grep -i --color=auto'                # Enable color and case insensitivity
+alias less='less --incsearch --use-coor'
+alias mkdir='mkdir -p'                           # Make dir and all intermediary dirs
+alias rg='rg -i'                                 # Enable case insensitivity
+alias scp='scp -Cpr'                             # Compress, preserve file metadata, and
+                                                 # copy recursively.
+alias sudo='sudo '                               # Allows aliased commands to carry over
+                                                 # when sudoing.
+alias vi='nvim'                                  # The one true god
 alias vim='nvim'
 alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
                                                  # via /:help request.
+
 
 #############
 # Functions #
@@ -147,5 +148,3 @@ f() {
                  rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' {} || \
                  rg --ignore-case --pretty --context 10 '$1' {}"
 }
-
-

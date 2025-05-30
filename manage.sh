@@ -12,7 +12,7 @@
 #
 set -euo pipefail
 
-REPO_URL="https://github.com/YOURUSER/dotfiles.git"
+REPO_URL="https://github.com/breadtk/dotfiles.git"
 DOTFILES_DIR="${HOME}/dotfiles"
 BACKUP_DIR="${DOTFILES_DIR}/.backup_pre_stow"
 SKIP_RE='^\.(git|backup_pre_stow)|^\.?github$'
