@@ -11,14 +11,15 @@
     ui = always
 [core]
     editor = nvim
-[credential "https://github.com"]
-    # Github uses "Personal access tokens" as passwords for their HTTPS
-    # protocol. You can retrieve it from: https://github.com/settings/tokens
-    username = breadtk
 [push]
     default = simple
 [user]
     name = osman
     email = osman@surkatty.org
 [credential]
-	helper = manager
+    helper = /usr/local/bin/git-credential-manager
+    credentialStore = secretservice
+[credential "https://github.com"]
+    # Github uses "Personal access tokens" as passwords for their HTTPS
+    # protocol. You can retrieve it from: https://github.com/settings/tokens
+    username = breadtk
