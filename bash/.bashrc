@@ -35,14 +35,10 @@ shopt -s histappend     # Always append, don't clobber the history file.
 export MANPAGER="less -X --incsearch --use-color"
 
 # Alias definitions
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
+[[ -r "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
 # Use bash-completion, if available
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    source /usr/share/bash-completion/bash_completion
-
+[[ -r "/usr/share/bash-completion/bash_completion" ]] && source "/usr/share/bash-completion/bash_completion"
 
 # Homebrew's 'bash-completion' package
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"
@@ -64,4 +60,4 @@ __bashrc_prompt_command() {
 }
 PROMPT_COMMAND="__bashrc_prompt_command"
 
-. "$HOME/.local/share/../bin/env"
+[[ -r "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
