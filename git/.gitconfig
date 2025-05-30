@@ -20,3 +20,5 @@
 [user]
     name = osman
     email = osman@surkatty.org
+[credential]
+	helper = manager
