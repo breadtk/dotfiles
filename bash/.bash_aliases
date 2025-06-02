@@ -4,9 +4,9 @@
 
 # macOS vs Linux specific aliases
 if [[ $(uname -a) == "Darwin"* ]]; then
-    alias ls='ls -alhG'
+    alias ls='ls -lhG'
 else
-    alias ls='ls -alh --color=always'
+    alias ls='ls -lh --color=always'
 fi
 
 ###################
