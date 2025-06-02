@@ -3,6 +3,7 @@
 ################################
 .history
 .local
+*.local
 .cache
 
 
