@@ -18,6 +18,7 @@
 # Potential credential files #
 ##############################
 *.pem
+.git-credentials
 credentials
 id_rsa
 id_ed25519

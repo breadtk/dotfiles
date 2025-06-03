@@ -16,7 +16,7 @@ alias df='df -h'                                 # Readable sizes
 alias du='du -h'                                 # Readable sizes
 alias fuck='sudo $(history -p \!\!)'             # Retry last command via sudo
 alias grep='grep -i --color=auto'                # Enable color and case insensitivity
-alias less='less --incsearch --use-coor'
+alias less='less -X --incsearch --use-color'     # Enable color by default
 alias mkdir='mkdir -p'                           # Make dir and all intermediary dirs
 alias rg='rg -i'                                 # Enable case insensitivity
 alias scp='scp -Cpr'                             # Compress, preserve file metadata, and
