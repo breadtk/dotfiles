@@ -7,6 +7,31 @@
 vim.g.mapleader       = ' '
 vim.g.maplocalleader  = '\\'
 
+-- Provide vim.version.ge for older Neovim versions (<0.11)
+if not vim.version.ge then
+  ---Compare two versions and check if v1 >= v2
+  ---@param v1 table Version table from `vim.version()`
+  ---@param v2 table list like {major, minor, patch}
+  vim.version.ge = function(v1, v2)
+    local m1, n1, p1 = v1.major or 0, v1.minor or 0, v1.patch or 0
+    local m2, n2, p2 = v2[1] or 0, v2[2] or 0, v2[3] or 0
+    if m1 ~= m2 then
+      return m1 > m2
+    elseif n1 ~= n2 then
+      return n1 > n2
+    end
+    return p1 >= p2
+  end
+end
+
+-- Polyfill for vim.lsp.enable (added in Neovim 0.11)
+if not vim.lsp.enable then
+  ---@param server string
+  vim.lsp.enable = function(server)
+    vim.cmd('LspStart ' .. server)
+  end
+end
+
 -- Run lazy.nvim for plugin management.
 require("lazy_setup")
 
