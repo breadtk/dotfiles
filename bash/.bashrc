@@ -3,7 +3,9 @@
 
 # Automatically start or attach to a tmux session if not already in one.
 if [ -z "$TMUX" ]; then
-  tmux new-session -A -s default
+  if command -v tmux >/dev/null; then
+    tmux new-session -A -s default
+  fi
 fi
 
 # Include Homebrew paths
