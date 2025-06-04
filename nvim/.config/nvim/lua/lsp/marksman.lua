@@ -1,7 +1,7 @@
 -- marksman LSP (https://github.com/artempyanykh/marksman)
-local util    = require('lspconfig.util')
+local util = require('lspconfig.util')
 
-require('lspconfig').marksman.setup({
+return {
     filetypes = { "markdown" },
     root_dir  = util.root_pattern(".git", ".marksman.toml"),
-})
+}
