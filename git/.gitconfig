@@ -17,9 +17,8 @@
     name = osman
     email = osman@surkatty.org
 [credential]
-    helper = /usr/local/bin/git-credential-manager
-    credentialStore = secretservice
+    helper = store
 [credential "https://github.com"]
     # Github uses "Personal access tokens" as passwords for their HTTPS
-    # protocol. You can retrieve it from: https://github.com/settings/tokens
+    # protocol. You can generate one at: https://github.com/settings/tokens
     username = breadtk
