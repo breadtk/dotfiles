@@ -16,6 +16,7 @@ REPO_URL="https://github.com/breadtk/dotfiles.git"
 DOTFILES_DIR="${HOME}/dotfiles"
 BACKUP_DIR="${DOTFILES_DIR}/.backup_pre_stow"
 SKIP_RE='^\.(git|backup_pre_stow)|^\.?github$'
+TOOLS_FILE="${DOTFILES_DIR}/tools.conf"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "❌  $1 missing"; exit 1; }; }
 
@@ -38,6 +39,16 @@ backup_conflicts() {            # move real files aside
   done
 }
 
+check_required_tools() {
+    [[ -f "$TOOLS_FILE" ]] || return
+    while IFS= read -r tool; do
+        [[ -z "$tool" || "$tool" == \#* ]] && continue
+        if ! command -v "$tool" >/dev/null 2>&1; then
+            echo "⚠️  $tool missing"
+        fi
+    done < "$TOOLS_FILE"
+}
+
 install_pkg()  { backup_conflicts "$1"; stow -v "$1"; }
 restow_pkg()   { backup_conflicts "$1"; stow -vR "$1"; }
 unstow_pkg()   { stow -vD "$1"; }
@@ -47,6 +58,7 @@ cmd=${1:-help}
 case $cmd in
   install|update)
       need stow
+      check_required_tools
       [[ -d ${DOTFILES_DIR}/.git ]] || git clone --recursive "$REPO_URL" "$DOTFILES_DIR"
       cd "$DOTFILES_DIR"
       [[ $cmd == update ]] && git pull --ff-only
