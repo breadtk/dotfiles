@@ -22,3 +22,5 @@
     # Github uses "Personal access tokens" as passwords for their HTTPS
     # protocol. You can generate one at: https://github.com/settings/tokens
     username = breadtk
+[pull]
+	rebase = false

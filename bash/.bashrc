@@ -47,14 +47,6 @@ export MANPAGER="less -X --incsearch --use-color"
 
 # Various commands for $PROMPT_COMMAND.
 __bashrc_prompt_command() {
-    # Catch exit code
-    local ec=$?
-
-    # Display exit code of last command in red text, unless zero.
-    if [ $ec -ne 0 ];then
-        echo -e "\033[31;1m[$ec]\033[0m"
-    fi
-
     # Maintain a merged history across all shells.
     history -a
     history -c
@@ -63,3 +55,8 @@ __bashrc_prompt_command() {
 PROMPT_COMMAND="__bashrc_prompt_command"
 
 [[ -r "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
+
+# Print your daily fortune.
+if command -v fortune >/dev/null 2>&1; then
+    fortune
+fi
