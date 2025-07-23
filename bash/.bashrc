@@ -15,6 +15,31 @@ export PATH="/usr/local/bin:$PATH"
 # Colorized prompt
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
+# Enable Tokyo Night theme
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+  --highlight-line \
+  --info=inline-right \
+  --ansi \
+  --layout=reverse \
+  --border=none \
+  --color=bg+:#283457 \
+  --color=bg:#16161e \
+  --color=border:#27a1b9 \
+  --color=fg:#c0caf5 \
+  --color=gutter:#16161e \
+  --color=header:#ff9e64 \
+  --color=hl+:#2ac3de \
+  --color=hl:#2ac3de \
+  --color=info:#545c7e \
+  --color=marker:#ff007c \
+  --color=pointer:#ff007c \
+  --color=prompt:#2ac3de \
+  --color=query:#c0caf5:regular \
+  --color=scrollbar:#27a1b9 \
+  --color=separator:#ff9e64 \
+  --color=spinner:#ff007c \
+"
+
 # <3
 export VISUAL=nvim
 export EDITOR=nvim
@@ -45,6 +70,8 @@ export MANPAGER="less -X --incsearch --use-color"
 # Homebrew's 'bash-completion' package
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"
 
+export LEDGER_FILE="$HOME/blackhole/docs/finance/hledger/surkatty_books.journal"
+
 # Various commands for $PROMPT_COMMAND.
 __bashrc_prompt_command() {
     # Maintain a merged history across all shells.
@@ -58,5 +85,5 @@ PROMPT_COMMAND="__bashrc_prompt_command"
 
 # Print your daily fortune.
 if command -v fortune >/dev/null 2>&1; then
-    fortune
+    fortune -s
 fi
