@@ -1,12 +1,6 @@
 # If not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
-# Automatically start or attach to a tmux session if not already in one.
-if [ -z "$TMUX" ]; then
-  if command -v tmux >/dev/null; then
-    tmux new-session -A -s default
-  fi
-fi
 
 # Include Homebrew paths
 export PATH="/usr/local/sbin:$PATH"
@@ -24,6 +18,15 @@ export EDITOR=nvim
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
+
+# Automatically start or attach to a tmux session if not already in one. Must
+# occur after XDG setup since there are settings which depend on those being
+# setup.
+if [ -z "$TMUX" ]; then
+  if command -v tmux >/dev/null; then
+    tmux new-session -A -s default
+  fi
+fi
 
 # BASH history options 
 [ ! -d "$XDG_CACHE_HOME/bash/" ] && mkdir "$XDG_CACHE_HOME/bash/"
@@ -60,3 +63,6 @@ PROMPT_COMMAND="__bashrc_prompt_command"
 if command -v fortune >/dev/null 2>&1; then
     fortune
 fi
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
