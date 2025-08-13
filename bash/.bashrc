@@ -1,37 +1,20 @@
 # If not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
-
-# Include Homebrew paths
+# Include common path entries.
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:~/.lmstudio/bin"
 
 # Colorized prompt
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
-# Enable Tokyo Night theme
+# Settings for fzf
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
-  --highlight-line \
-  --info=inline-right \
+  --info=inline \
   --ansi \
   --layout=reverse \
-  --border=none \
-  --color=bg+:#283457 \
-  --color=bg:#16161e \
-  --color=border:#27a1b9 \
-  --color=fg:#c0caf5 \
-  --color=gutter:#16161e \
-  --color=header:#ff9e64 \
-  --color=hl+:#2ac3de \
-  --color=hl:#2ac3de \
-  --color=info:#545c7e \
-  --color=marker:#ff007c \
-  --color=pointer:#ff007c \
-  --color=prompt:#2ac3de \
-  --color=query:#c0caf5:regular \
-  --color=scrollbar:#27a1b9 \
-  --color=separator:#ff9e64 \
-  --color=spinner:#ff007c \
+  --border=none
 "
 
 # <3
@@ -93,3 +76,4 @@ fi
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
