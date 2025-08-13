@@ -74,6 +74,6 @@ if command -v fortune >/dev/null 2>&1; then
     fortune -s
 fi
 
+# Include homebrew path funtimes
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
