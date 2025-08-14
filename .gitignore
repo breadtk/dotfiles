@@ -109,6 +109,9 @@ Sessionx.vim
 .netrwhist
 *~
 
+## Lazy.nvim lock files
+nvim/.config/nvim/lazy-lock*
+
 
 ############
 # OS stuff #
