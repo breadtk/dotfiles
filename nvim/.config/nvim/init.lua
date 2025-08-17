@@ -148,4 +148,3 @@ vim.api.nvim_create_user_command('WQ', 'wq<bang>',
 
 vim.api.nvim_create_user_command('Wq', 'wq<bang>',
 { bang = true, nargs = 0, desc = 'Write & Quit (typo fix)' })
-

@@ -13,4 +13,3 @@ vim.api.nvim_create_autocmd("CursorHold", {
 for _, name in ipairs(servers) do
   require("lsp." .. name)
 end
-

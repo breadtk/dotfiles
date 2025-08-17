@@ -103,4 +103,3 @@ case $cmd in
       echo "Usage: $(basename "$0") { install | update | remove | uninstall }"
       exit 1 ;;
 esac
-

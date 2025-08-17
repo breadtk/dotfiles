@@ -28,4 +28,3 @@ if needs_weekly_update() then
     end,
   })
 end
-
