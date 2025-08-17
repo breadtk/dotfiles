@@ -136,6 +136,13 @@ cd() {
 }
 
 
+# Fast preview command for fzf later on.
+if command -v bat >/dev/null 2>&1; then
+    _fzf_preview='bat -n --color=always --line-range :300 {}'
+else
+    _fzf_preview='head -n 300 {} 2>/dev/null'
+fi
+
 # ff: pick a file and open in $EDITOR (nvim by default)
 ff() {
   local f
@@ -164,5 +171,5 @@ fcd() {
 fkill() {
   local pids
   pids="$(ps -eo pid,ppid,comm,%cpu,%mem --sort=-%cpu | sed 1d | fzf --multi --prompt='kill> ' | awk '{print $1}')" || return
-  [[ -n "$pids" ]] && sudo kill -9 $pids
+  [[ -n "${pids}" ]] && sudo kill -9 "${pids}"
 }

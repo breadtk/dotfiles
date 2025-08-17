@@ -19,3 +19,21 @@ repos:
       - id: fix-byte-order-marker
       - id: check-added-large-files
         args: ['--maxkb=1024']
+
+  # Python lint
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+        types_or: [python]
+      - id: ruff-format
+        types_or: [python]
+
+  # Shellscript linting
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: ['-x', '--shell', 'bash']
+        types_or: [shell]

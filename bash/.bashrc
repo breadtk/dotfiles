@@ -22,50 +22,73 @@ export FZF_COMPLETION_TRIGGER='//'
 
 # Prefer built-in integration (fzf >= 0.48)
 if fzf --bash >/dev/null 2>&1; then
-    # New walker-based bindings (no fd/rg needed)
-    export FZF_CTRL_T_OPTS=$(
-        printf "%s" \
-            "--height=40% --layout=reverse --border " \
-            "--walker file,dir,follow,hidden" \
-            "--walker-skip .git,node_modules,target,.venv" \
-            "--preview '$_fzf_preview' " \
-            "--bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up"
-        )
-        export FZF_ALT_C_OPTS="
+    # FZF_CTRL_T_OPTS: assign, then export (no SC2155)
+    FZF_CTRL_T_OPTS="$(
+        cat <<EOF
         --height=40%
         --layout=reverse
         --border
-        --walker dir,follow,hidden
-        --walker-skip .git,node_modules,target
-        --preview 'tree -C {} | head -n 200'"
-        export FZF_CTRL_R_OPTS="--height=40% --layout=reverse --border --exact"
-        eval "$(fzf --bash)"
-    else
-        # Fedora auto-completion integration
-        for f in \
-            /usr/share/fzf/shell/key-bindings.bash \
-            /usr/share/doc/fzf/examples/key-bindings.bash
-        do [[ -r $f ]] && source "$f" && break; done
+        --walker file,dir,follow,hidden
+        --walker-skip .git,node_modules,target,.venv
+        --preview '$_fzf_preview'
+        --bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up
+EOF
+)"
+export FZF_CTRL_T_OPTS
 
-  # Debian auto-completion integration
-  for f in \
-      /usr/share/fzf/shell/completion.bash \
-      /usr/share/doc/fzf/examples/completion.bash \
-      /etc/bash_completion.d/fzf
-  do [[ -r $f ]] && source "$f" && break; done
+FZF_ALT_C_OPTS="$(
+    cat <<'EOF'
+    --height=40%
+    --layout=reverse
+    --border
+    --walker dir,follow,hidden
+    --walker-skip .git,node_modules,target
+    --preview 'tree -C {} | head -n 200'
+EOF
+)"
+export FZF_ALT_C_OPTS
 
-  # Default fzf options.
-  export FZF_DEFAULT_OPTS="
-  --height=40%
-  --layout=reverse
-  --border
-  --preview '$_fzf_preview'
-  --bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up"
-  export FZF_CTRL_R_OPTS="
-  --height=40%
-  --layout=reverse
-  --border
-  --exact"
+export FZF_CTRL_R_OPTS=$'--height=40%\n--layout=reverse\n--border\n--exact'
+
+eval "$(fzf --bash)"
+else
+    # Fedora auto-completion
+    if [[ -r /usr/share/fzf/shell/key-bindings.bash ]]; then
+        # shellcheck source=/usr/share/fzf/shell/key-bindings.bash
+        # shellcheck disable=SC1091
+        . /usr/share/fzf/shell/key-bindings.bash
+    elif [[ -r /usr/share/doc/fzf/examples/key-bindings.bash ]]; then
+        # shellcheck source=/usr/share/doc/fzf/examples/key-bindings.bash
+        # shellcheck disable=SC1091
+        . /usr/share/doc/fzf/examples/key-bindings.bash
+    fi
+
+    # Debian auto-completion
+    if [[ -r /usr/share/fzf/shell/completion.bash ]]; then
+        # shellcheck source=/usr/share/fzf/shell/completion.bash
+        # shellcheck disable=SC1091
+        . /usr/share/fzf/shell/completion.bash
+    elif [[ -r /usr/share/doc/fzf/examples/completion.bash ]]; then
+        # shellcheck source=/usr/share/doc/fzf/examples/completion.bash
+        # shellcheck disable=SC1091
+        . /usr/share/doc/fzf/examples/completion.bash
+    elif [[ -r /etc/bash_completion.d/fzf ]]; then
+        # shellcheck source=/etc/bash_completion.d/fzf
+        # shellcheck disable=SC1091
+        . /etc/bash_completion.d/fzf
+    fi
+
+    FZF_DEFAULT_OPTS="$(
+        cat <<EOF
+        --height=40%
+        --layout=reverse
+        --border
+        --preview '$_fzf_preview'
+        --bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up
+EOF
+)"
+export FZF_DEFAULT_OPTS
+export FZF_CTRL_R_OPTS=$'--height=40%\n--layout=reverse\n--border\n--exact'
 fi
 
 # <3
@@ -99,12 +122,15 @@ shopt -s histappend     # Always append, don't clobber the history file.
 export MANPAGER="less -X --incsearch --use-color"
 
 # Alias definitions
+# shellcheck disable=SC1091
 [[ -r "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
 # Use bash-completion, if available
+# shellcheck disable=SC1091
 [[ -r "/usr/share/bash-completion/bash_completion" ]] && source "/usr/share/bash-completion/bash_completion"
 
 # Homebrew's 'bash-completion' package
+# shellcheck disable=SC1091
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"
 
 export LEDGER_FILE="$HOME/blackhole/docs/finance/hledger/surkatty_books.journal"
@@ -118,6 +144,7 @@ __bashrc_prompt_command() {
 }
 PROMPT_COMMAND="__bashrc_prompt_command"
 
+# shellcheck disable=SC1091
 [[ -r "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 
 # Print your daily fortune.
