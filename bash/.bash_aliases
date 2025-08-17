@@ -136,15 +136,33 @@ cd() {
 }
 
 
-# Search for files matching particular filenames using fzf and ripgrep.
-f() {
-  if [ "$#" -eq 0 ]; then
-    echo "Need a string to search for!"
-    return 1
+# ff: pick a file and open in $EDITOR (nvim by default)
+ff() {
+  local f
+  if fzf --bash >/dev/null 2>&1; then
+    f="$(fzf \
+          --walker file,follow,hidden \
+          --walker-skip .git,node_modules,target,.venv \
+          --prompt 'ff> ' \
+          --preview "${_fzf_preview}")" || return
+  else
+    # build command as an array; redirect outside so it actually applies
+    local -a src=(find -L . -type f -printf '%P\n')
+    f="$("${src[@]}" 2>/dev/null | fzf --prompt 'ff> ')" || return
   fi
-  rg --files-with-matches --hidden --no-ignore --no-messages "$1" | \
-  fzf --query="$1" \
-      --preview "highlight -O ansi -l {} 2> /dev/null | \
-                 rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' {} || \
-                 rg --ignore-case --pretty --context 10 '$1' {}"
+  "${EDITOR:-nvim}" -- "$f"
+}
+
+# fcd: jump to a directory
+fcd() {
+  local d
+  d="$(${FZF_ALT_C_COMMAND:-"find -L . -type d -not -path '*/.git/*' 2>/dev/null"} | fzf --prompt='cd> ')" || return
+  cd -- "$d" || return
+}
+
+# fkill: pick processes and kill
+fkill() {
+  local pids
+  pids="$(ps -eo pid,ppid,comm,%cpu,%mem --sort=-%cpu | sed 1d | fzf --multi --prompt='kill> ' | awk '{print $1}')" || return
+  [[ -n "$pids" ]] && sudo kill -9 $pids
 }

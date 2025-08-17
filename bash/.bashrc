@@ -9,13 +9,64 @@ export PATH="$PATH:~/.lmstudio/bin"
 # Colorized prompt
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
-# Settings for fzf
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
-  --info=inline \
-  --ansi \
-  --layout=reverse \
-  --border=none
-"
+# fzf
+## Fast preview command for fzf later on.
+if command -v bat >/dev/null 2>&1; then
+    _fzf_preview='bat -n --color=always --line-range :300 {}'
+else
+    _fzf_preview='head -n 300 {} 2>/dev/null'
+fi
+
+# Avoid conflict with bash ** globstar; set BEFORE sourcing integration
+export FZF_COMPLETION_TRIGGER='//'
+
+# Prefer built-in integration (fzf >= 0.48)
+if fzf --bash >/dev/null 2>&1; then
+    # New walker-based bindings (no fd/rg needed)
+    export FZF_CTRL_T_OPTS=$(
+        printf "%s" \
+            "--height=40% --layout=reverse --border " \
+            "--walker file,dir,follow,hidden" \
+            "--walker-skip .git,node_modules,target,.venv" \
+            "--preview '$_fzf_preview' " \
+            "--bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up"
+        )
+        export FZF_ALT_C_OPTS="
+        --height=40%
+        --layout=reverse
+        --border
+        --walker dir,follow,hidden
+        --walker-skip .git,node_modules,target
+        --preview 'tree -C {} | head -n 200'"
+        export FZF_CTRL_R_OPTS="--height=40% --layout=reverse --border --exact"
+        eval "$(fzf --bash)"
+    else
+        # Fedora auto-completion integration
+        for f in \
+            /usr/share/fzf/shell/key-bindings.bash \
+            /usr/share/doc/fzf/examples/key-bindings.bash
+        do [[ -r $f ]] && source "$f" && break; done
+
+  # Debian auto-completion integration
+  for f in \
+      /usr/share/fzf/shell/completion.bash \
+      /usr/share/doc/fzf/examples/completion.bash \
+      /etc/bash_completion.d/fzf
+  do [[ -r $f ]] && source "$f" && break; done
+
+  # Default fzf options.
+  export FZF_DEFAULT_OPTS="
+  --height=40%
+  --layout=reverse
+  --border
+  --preview '$_fzf_preview'
+  --bind ctrl-/:toggle-preview,ctrl-f:toggle-sort,ctrl-d:half-page-down,ctrl-u:half-page-up"
+  export FZF_CTRL_R_OPTS="
+  --height=40%
+  --layout=reverse
+  --border
+  --exact"
+fi
 
 # <3
 export VISUAL=nvim
@@ -31,12 +82,12 @@ export XDG_DATA_HOME=$HOME/.local/share
 # occur after XDG setup since there are settings which depend on those being
 # setup.
 if [ -z "$TMUX" ]; then
-  if command -v tmux >/dev/null; then
-    tmux new-session -A -s default
-  fi
+    if command -v tmux >/dev/null; then
+        tmux new-session -A -s default
+    fi
 fi
 
-# BASH history options 
+# BASH history options
 [ ! -d "$XDG_CACHE_HOME/bash/" ] && mkdir "$XDG_CACHE_HOME/bash/"
 export HISTFILE=$XDG_CACHE_HOME/bash/.bash_history
 export HISTCONTROL=ignoreboth

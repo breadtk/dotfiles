@@ -1,0 +1,21 @@
+# .pre-commit-config.yaml
+minimum_pre_commit_version: "3.7.1"
+default_install_hook_types: [pre-commit, pre-push, commit-msg]
+exclude: |
+  (^|/)(\.git|\.venv|venv|node_modules|target|dist|build|\.mypy_cache|\.ruff_cache)(/|$)
+
+repos:
+  # Universal hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: fix-byte-order-marker
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
