@@ -18,15 +18,16 @@ alias fuck='sudo $(history -p \!\!)'             # Retry last command via sudo
 alias grep='grep -i --color=auto'                # Enable color and case insensitivity
 alias less='less -R -X --incsearch --use-color'  # Enable color by default
 alias mkdir='mkdir -p'                           # Make dir and all intermediary dirs
+alias open='xdg-open'                            # Default handler
 alias rg='rg -i'                                 # Enable case insensitivity
 alias scp='scp -Cpr'                             # Compress, preserve file metadata, and
-                                                 # copy recursively.
+                                                 # copy recursively
 alias sudo='sudo '                               # Allows aliased commands to carry over
-                                                 # when sudoing.
+                                                 # when sudoing
 alias vi='nvim'                                  # The one true god
 alias vim='nvim'
 alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
-                                                 # via /:help request.
+                                                 # via /:help request
 
 
 #############
