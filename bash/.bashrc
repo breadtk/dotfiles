@@ -13,10 +13,10 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 # Include common PATH entries.
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$PATH:~/.lmstudio/bin"
+export PATH=/usr/local/sbin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=$PATH:"$HOME/.lmstudio/bin"
 
 # Homebrew paths
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
