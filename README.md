@@ -1,5 +1,5 @@
 Osman's dotfiles files.
-===================
+=======================
 
 This repository contains various dotfiles that I find useful.
 
@@ -23,13 +23,13 @@ stow kitty
 ```
 
 Git Credential Storage
----------------------
+----------------------
 The included [`.gitconfig`](git/.gitconfig) configures Git to use
-`git-credential-manager` with the `secretservice` credential store.
-This requires the **git-credential-manager** package and the `libsecret`
-library (often provided by the `secret-tool` command). If these tools are not
-available you can switch to another helper, such as `git-credential-libsecret`
-or the built in `store` helper.
+`git-credential-manager` with the `secretservice` credential store. This
+requires the **git-credential-manager** package and the `libsecret` library
+(often provided by the `secret-tool` command). If these tools are not available
+you can switch to another helper, such as `git-credential-libsecret` or the
+built in `store` helper.
 
 To change or disable the credential helper:
 
@@ -46,4 +46,5 @@ Also see
 For more ideas, check out the unofficial guide to dotfiles on GitHub:
 http://dotfiles.github.io/
 
-An earlier version of this file was adapted from [markup's README](https://github.com/github/markup/blob/master/README.md)
+An earlier version of this file was adapted from [markup's
+README](https://github.com/github/markup/blob/master/README.md)
