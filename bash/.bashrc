@@ -5,6 +5,9 @@
 # BASH/Terminal #
 #################
 
+export TERM=xterm-256color
+
+
 # Colorized prompt
 export PS1="\[\e[32m\][\u@\h \W]\$\[\e[0m\] "
 
@@ -178,3 +181,6 @@ EOF
 export FZF_DEFAULT_OPTS
 export FZF_CTRL_R_OPTS=$'--height=40%\n--layout=reverse\n--border\n--exact'
 fi
+
+# opencode
+export PATH=/home/osman/.opencode/bin:$PATH
