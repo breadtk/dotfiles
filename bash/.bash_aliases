@@ -24,10 +24,11 @@ alias scp='scp -Cpr'                             # Compress, preserve file metad
                                                  # copy recursively
 alias sudo='sudo '                               # Allows aliased commands to carry over
                                                  # when sudoing
-alias vi='nvim'                                  # The one true god
+alias v='nvim'                                   # The one true god
+alias vi='nvim'
 alias vim='nvim'
-alias weather='curl http://wttr.in/Seattle?FQnu' # Terminal weather. More options
-                                                 # via /:help request
+alias weather='curl http://wttr.in/?FQnu'        # Terminal weather. More options
+# via /:help request
 
 
 #############
@@ -63,25 +64,25 @@ c() {
             else
                 echo "Error: 'tar' is not installed."
                 return 1
-            fi ;;
-        *.zip)
-            if command -v zip >/dev/null 2>&1; then
-                if zip -r "$target" "${src[@]}"; then
-                    echo "Created archive '$target'."
+                fi ;;
+            *.zip)
+                if command -v zip >/dev/null 2>&1; then
+                    if zip -r "$target" "${src[@]}"; then
+                        echo "Created archive '$target'."
+                    else
+                        echo "Error: Failed to create archive."
+                        return 1
+                    fi
                 else
-                    echo "Error: Failed to create archive."
+                    echo "Error: 'zip' is not installed."
                     return 1
-                fi
-            else
-                echo "Error: 'zip' is not installed."
-                return 1
-            fi ;;
-        *)
-            echo "Unsupported compression format: '$target'"
-            echo "Supported formats are: .tar, .tar.gz, .tar.bz2, .tar.xz, .tar.lz, .tar.Z, .zip"
-            return 1 ;;
-    esac
-}
+                    fi ;;
+                *)
+                    echo "Unsupported compression format: '$target'"
+                    echo "Supported formats are: .tar, .tar.gz, .tar.bz2, .tar.xz, .tar.lz, .tar.Z, .zip"
+                    return 1 ;;
+            esac
+        }
 
 
 # Extract/decompress common archive formats.
@@ -110,25 +111,25 @@ x() {
             else
                 echo "Error: 'tar' is not installed."
                 return 1
-            fi ;;
-        *.zip)
-            if command -v unzip >/dev/null 2>&1; then
-                if unzip "$archive"; then
-                    echo "Extracted '$archive'."
+                fi ;;
+            *.zip)
+                if command -v unzip >/dev/null 2>&1; then
+                    if unzip "$archive"; then
+                        echo "Extracted '$archive'."
+                    else
+                        echo "Error: Extraction failed."
+                        return 1
+                    fi
                 else
-                    echo "Error: Extraction failed."
+                    echo "Error: 'unzip' is not installed."
                     return 1
-                fi
-            else
-                echo "Error: 'unzip' is not installed."
-                return 1
-            fi ;;
-        *)
-            echo "Error: Unsupported archive format."
-            echo "Supported formats are: .tar, .tar.gz, .tar.bz2, .tar.xz, .tar.lz, .tar.Z, .zip"
-            return 1 ;;
-    esac
-}
+                    fi ;;
+                *)
+                    echo "Error: Unsupported archive format."
+                    echo "Supported formats are: .tar, .tar.gz, .tar.bz2, .tar.xz, .tar.lz, .tar.Z, .zip"
+                    return 1 ;;
+            esac
+        }
 
 
 # ls after every cd.
@@ -146,31 +147,44 @@ fi
 
 # ff: pick a file and open in $EDITOR (nvim by default)
 ff() {
-  local f
-  if fzf --bash >/dev/null 2>&1; then
-    f="$(fzf \
-          --walker file,follow,hidden \
-          --walker-skip .git,node_modules,target,.venv \
-          --prompt 'ff> ' \
-          --preview "${_fzf_preview}")" || return
-  else
-    # build command as an array; redirect outside so it actually applies
-    local -a src=(find -L . -type f -printf '%P\n')
-    f="$("${src[@]}" 2>/dev/null | fzf --prompt 'ff> ')" || return
-  fi
-  "${EDITOR:-nvim}" -- "$f"
+    local f
+    if fzf --bash >/dev/null 2>&1; then
+        f="$(fzf \
+            --walker file,follow,hidden \
+            --walker-skip .git,node_modules,target,.venv \
+            --prompt 'ff> ' \
+            --preview "${_fzf_preview}")" || return
+    else
+        # build command as an array; redirect outside so it actually applies
+        local -a src=(find -L . -type f -printf '%P\n')
+        f="$("${src[@]}" 2>/dev/null | fzf --prompt 'ff> ')" || return
+    fi
+    "${EDITOR:-nvim}" -- "$f"
 }
 
 # fcd: jump to a directory
 fcd() {
-  local d
-  d="$(${FZF_ALT_C_COMMAND:-"find -L . -type d -not -path '*/.git/*' 2>/dev/null"} | fzf --prompt='cd> ')" || return
-  cd -- "$d" || return
+    local d
+    d="$(${FZF_ALT_C_COMMAND:-"find -L . -type d -not -path '*/.git/*' 2>/dev/null"} | fzf --prompt='cd> ')" || return
+    cd -- "$d" || return
 }
 
 # fkill: pick processes and kill
 fkill() {
-  local pids
-  pids="$(ps -eo pid,ppid,comm,%cpu,%mem --sort=-%cpu | sed 1d | fzf --multi --prompt='kill> ' | awk '{print $1}')" || return
-  [[ -n "${pids}" ]] && sudo kill -9 "${pids}"
+    local pids
+    pids="$(ps -eo pid,ppid,comm,%cpu,%mem --sort=-%cpu | sed 1d | fzf --multi --prompt='kill> ' | awk '{print $1}')" || return
+    [[ -n "${pids}" ]] && sudo kill -9 "${pids}"
+}
+
+# tempe: Create scratch space.
+# Original author: Evan Hahn
+# Source: https://codeberg.org/EvanHahn/dotfiles
+tempe () {
+    cd "$(mktemp -d)" || exit
+    chmod -R 0700 .
+    if [[ $# -eq 1 ]]; then
+        mkdir -p "$1"
+        cd "$1" || exit
+        chmod -R 0700 .
+    fi
 }

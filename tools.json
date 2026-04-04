@@ -1,0 +1,18 @@
+{
+    "system_package": [
+        "jq",
+        "stow",
+        "fzf",
+        "git-credential-manager",
+        "highlight",
+        "nvim",
+        "rg",
+        "ruff",
+        "secret-tool",
+        "tmux",
+        "uv",
+        "zoxide"
+    ],
+    "brew": [],
+    "flatpak": []
+}
