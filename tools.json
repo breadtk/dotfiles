@@ -1,14 +1,16 @@
 {
     "system_package": [
-        "jq",
-        "stow",
         "fzf",
         "git-credential-manager",
         "highlight",
+        "jq",
         "nvim",
+        "python3-pip",
+        "python3-venv",
         "rg",
         "ruff",
         "secret-tool",
+        "stow",
         "tmux",
         "uv",
         "zoxide"
