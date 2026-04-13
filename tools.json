@@ -1,20 +1,16 @@
 {
     "system_package": [
         "fzf",
-        "git-credential-manager",
         "highlight",
         "jq",
-        "nvim",
-        "python3-pip",
-        "python3-venv",
-        "rg",
+        {"cmd": "nvim",         "pkg": "neovim"},
+        {"cmd": "pip3",         "pkg": "python3-pip"},
+        {"cmd": "rg",           "pkg": "ripgrep"},
         "ruff",
-        "secret-tool",
+        {"cmd": "secret-tool",  "apt-get": "libsecret-tools", "dnf": "libsecret"},
         "stow",
         "tmux",
         "uv",
         "zoxide"
-    ],
-    "brew": [],
-    "flatpak": []
+    ]
 }

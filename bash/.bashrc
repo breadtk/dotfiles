@@ -16,6 +16,7 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 # Include common PATH entries.
+export PATH=$HOME/.local/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -181,6 +182,3 @@ EOF
 export FZF_DEFAULT_OPTS
 export FZF_CTRL_R_OPTS=$'--height=40%\n--layout=reverse\n--border\n--exact'
 fi
-
-# opencode
-export PATH=/home/osman/.opencode/bin:$PATH
