@@ -2,3 +2,6 @@
 # handle everything in .bashrc.
 # shellcheck disable=SC1091
 [[ -r "$HOME/.bashrc" ]] && source "$HOME/.bashrc"
+
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/home/osman/.lmstudio/bin"

@@ -15,7 +15,7 @@ set -euo pipefail
 REPO_URL="https://github.com/breadtk/dotfiles.git"
 DOTFILES_DIR="${HOME}/dotfiles"
 BACKUP_DIR="${DOTFILES_DIR}/.backup_pre_stow"
-SKIP_RE='^\.(git|backup_pre_stow)|^\.?github$'
+SKIP_RE='^\.(git|backup_pre_stow|claude)|^\.?github$'
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 TOOLS_FILE="${DOTFILES_DIR}/tools.json"
 [[ -f "$TOOLS_FILE" ]] || TOOLS_FILE="${SCRIPT_DIR}/tools.json"
@@ -23,7 +23,7 @@ TOOLS_FILE="${DOTFILES_DIR}/tools.json"
 packages() {
     find "${DOTFILES_DIR}" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' |
         grep -Ev "${SKIP_RE}" | sort
-    }
+}
 
 manifest_values() {
     local key=$1
@@ -38,203 +38,130 @@ manifest_values() {
     ' "$TOOLS_FILE"
 }
 
-dry_ok() {                      # 0 if stow -nv shows **no** conflicts
-    ! stow -nv "$1" 2>&1 | grep -q 'existing target is neither'
-}
-
-backup_conflicts() {            # move real files aside
-    local pkg=$1 line file
-    stow -nv "${pkg}" 2>&1 | while read -r line; do
-    [[ $line =~ existing\ target\ is\ neither ]] || continue
-    file=${line##*: }
-    mkdir -p "${BACKUP_DIR}/${pkg}/$(dirname "${file}")"
-    mv -v "${HOME}/${file}" "${BACKUP_DIR}/${pkg}/${file}"
-done
-}
-
 detect_system_package_manager() {
     if command -v apt-get >/dev/null 2>&1; then
         echo "apt-get"
-        return 0
     elif command -v dnf >/dev/null 2>&1; then
         echo "dnf"
-        return 0
+    else
+        return 1
     fi
-    return 1
 }
 
 system_package_installed() {
     local manager=$1 pkg=$2
     case "$manager" in
-        apt-get)
-            if dpkg -s "$pkg" >/dev/null 2>&1; then
-                return 0
-            else
-                return 1
-            fi
-            ;;
-        dnf)
-            if rpm -q "$pkg" >/dev/null 2>&1; then
-                return 0
-            else
-                return 1
-            fi
-            ;;
-        *)
-            return 1
-            ;;
+        apt-get) dpkg -s "$pkg" >/dev/null 2>&1 ;;
+        dnf)     rpm  -q "$pkg" >/dev/null 2>&1 ;;
+        *)       return 1 ;;
     esac
 }
 
 install_system_packages() {
     local manager=$1; shift
+    local -a maybe_sudo=(); (( EUID != 0 )) && maybe_sudo=(sudo)
     case "$manager" in
-        apt-get)
-            if (( EUID == 0 )); then
-                apt-get install -y "$@"
-            else
-                sudo apt-get install -y "$@"
-            fi
-            ;;
-        dnf)
-            if (( EUID == 0 )); then
-                dnf install -y "$@"
-            else
-                sudo dnf install -y "$@"
-            fi
-            ;;
-        *)
-            echo "❌  Unsupported system package manager: $manager"
-            return 1
-            ;;
+        apt-get) "${maybe_sudo[@]}" apt-get install -y "$@" ;;
+        dnf)     "${maybe_sudo[@]}" dnf     install -y "$@" ;;
+        *) echo "❌  Unsupported package manager: $manager"; return 1 ;;
     esac
 }
 
-brew_package_installed() {
-    local pkg=$1
-    if brew list --formula "$pkg" >/dev/null 2>&1; then
-        return 0
-    else
-        return 1
-    fi
+brew_package_installed()         { brew list --formula "$1" >/dev/null 2>&1; }
+snap_classic_package_installed() { snap list "$1" >/dev/null 2>&1; }
+
+install_snap_classic_packages() {
+    local -a maybe_sudo=(); (( EUID != 0 )) && maybe_sudo=(sudo)
+    for pkg in "$@"; do
+        "${maybe_sudo[@]}" snap install --classic "$pkg"
+    done
 }
 
-flatpak_package_installed() {
-    local pkg=$1
-    if flatpak info "$pkg" >/dev/null 2>&1; then
-        return 0
-    else
-        return 1
+# install_block LABEL CHECK_CMD PKGS_VAR INSTALL_CMD...
+# Finds missing packages via CHECK_CMD, prompts, installs, then verifies.
+install_block() {
+    local label=$1 check_cmd=$2 pkgs_var=$3; shift 3
+    local -n _pkgs=$pkgs_var
+    [[ ${#_pkgs[@]} -eq 0 ]] && return 0
+
+    local -a missing=()
+    local pkg
+    for pkg in "${_pkgs[@]}"; do
+        $check_cmd "$pkg" || missing+=("$pkg")
+    done
+    [[ ${#missing[@]} -eq 0 ]] && return 0
+
+    echo "${label} packages missing: ${missing[*]}"
+    read -rp "Install missing ${label} packages? [y/N] " reply
+    [[ $reply =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
+    "$@" "${missing[@]}"
+
+    local -a failed=()
+    for pkg in "${missing[@]}"; do
+        $check_cmd "$pkg" || failed+=("$pkg")
+    done
+    if ((${#failed[@]})); then
+        echo "❌  Failed to install ${label} packages: ${failed[*]}"
+        exit 1
     fi
 }
 
 ensure_packages_installed() {
-    local -a system_packages=() brew_packages=() flatpak_packages=()
-    while IFS= read -r pkg; do
-        [[ -z "$pkg" ]] && continue
-        system_packages+=("$pkg")
-    done < <(manifest_values "system_package")
-
-    while IFS= read -r pkg; do
-        [[ -z "$pkg" ]] && continue
-        brew_packages+=("$pkg")
-    done < <(manifest_values "brew")
-
-    while IFS= read -r pkg; do
-        [[ -z "$pkg" ]] && continue
-        flatpak_packages+=("$pkg")
-    done < <(manifest_values "flatpak")
+    local -a system_packages=() snap_classic_packages=() brew_packages=()
+    readarray -t system_packages     < <(manifest_values "system_package")
+    readarray -t snap_classic_packages < <(manifest_values "snap_classic")
+    readarray -t brew_packages       < <(manifest_values "brew")
 
     local manager
     manager=$(detect_system_package_manager || true)
-    if [[ ${#system_packages[@]} -gt 0 ]]; then
-        if [[ -z ${manager:-} ]]; then
-            echo "❌  No supported system package manager found, but system packages are required."
-            exit 1
-        fi
+    if ((${#system_packages[@]})) && [[ -z ${manager:-} ]]; then
+        echo "❌  No supported system package manager found, but system packages are required."
+        exit 1
+    fi
+    if ((${#snap_classic_packages[@]})); then
+        command -v snap >/dev/null 2>&1 || { echo "❌  snap packages required but snap not available."; exit 1; }
+    fi
+    if ((${#brew_packages[@]})); then
+        command -v brew >/dev/null 2>&1 || { echo "❌  Homebrew packages required but brew not available."; exit 1; }
     fi
 
-    local -a missing_system=() missing_brew=() missing_flatpak=()
     if [[ -n ${manager:-} ]]; then
-        local pkg
-        for pkg in "${system_packages[@]}"; do
-            system_package_installed "$manager" "$pkg" || missing_system+=("$pkg")
-        done
+        install_block "System (${manager})" "system_package_installed $manager" system_packages \
+            install_system_packages "$manager"
     fi
+    install_block "Snap (classic)" snap_classic_package_installed snap_classic_packages \
+        install_snap_classic_packages
+    install_block "Brew" brew_package_installed brew_packages brew install
+}
 
-    if ((${#brew_packages[@]})) && command -v brew >/dev/null 2>&1; then
-        local pkg
-        for pkg in "${brew_packages[@]}"; do
-            brew_package_installed "$pkg" || missing_brew+=("$pkg")
-        done
-    elif ((${#brew_packages[@]})); then
-        echo "❌  Homebrew packages required but brew not available."
-        exit 1
-    fi
+require_stow() {
+    command -v stow >/dev/null 2>&1 || { echo "❌  stow is required. Install stow first."; exit 1; }
+}
 
-    if ((${#flatpak_packages[@]})) && command -v flatpak >/dev/null 2>&1; then
-        local pkg
-        for pkg in "${flatpak_packages[@]}"; do
-            flatpak_package_installed "$pkg" || missing_flatpak+=("$pkg")
-        done
-    elif ((${#flatpak_packages[@]})); then
-        echo "❌  Flatpak packages required but flatpak not available."
-        exit 1
-    fi
-
-    if ((${#missing_system[@]} == 0 && ${#missing_brew[@]} == 0 && ${#missing_flatpak[@]} == 0)); then
-        return
-    fi
-
-    if ((${#missing_system[@]})); then
-        echo "System packages missing (${manager}): ${missing_system[*]}"
-        read -rp "Install missing system packages? [y/N] " reply
-        [[ $reply =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
-        install_system_packages "$manager" "${missing_system[@]}"
-        missing_system=()
-        for pkg in "${system_packages[@]}"; do
-            system_package_installed "$manager" "$pkg" || missing_system+=("$pkg")
-        done
-        if ((${#missing_system[@]})); then
-            echo "❌  Failed to install system packages: ${missing_system[*]}"
-            exit 1
-        fi
-    fi
-
-    if ((${#missing_brew[@]})); then
-        echo "Brew packages missing: ${missing_brew[*]}"
-        read -rp "Install missing Brew packages? [y/N] " reply
-        [[ $reply =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
-        brew install "${missing_brew[@]}"
-        missing_brew=()
-        for pkg in "${brew_packages[@]}"; do
-            brew_package_installed "$pkg" || missing_brew+=("$pkg")
-        done
-        if ((${#missing_brew[@]})); then
-            echo "❌  Failed to install Brew packages: ${missing_brew[*]}"
-            exit 1
-        fi
-    fi
-
-    if ((${#missing_flatpak[@]})); then
-        echo "Flatpak packages missing: ${missing_flatpak[*]}"
-        read -rp "Install missing Flatpak packages? [y/N] " reply
-        [[ $reply =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
-        flatpak install -y --noninteractive "${missing_flatpak[@]}"
-        missing_flatpak=()
-        for pkg in "${flatpak_packages[@]}"; do
-            flatpak_package_installed "$pkg" || missing_flatpak+=("$pkg")
-        done
-        if ((${#missing_flatpak[@]})); then
-            echo "❌  Failed to install Flatpak packages: ${missing_flatpak[*]}"
-            exit 1
-        fi
+# Back up real-file conflicts via stow -nv; re-runs stow -nv if anything was moved
+# to confirm the path is clear. Returns 1 if unresolvable conflicts remain.
+prepare_pkg() {
+    local pkg=$1 line file needs_recheck=0
+    local output
+    output=$(stow -nv "$pkg" 2>&1)
+    while IFS= read -r line; do
+        [[ $line =~ existing\ target\ is\ neither ]] || continue
+        file=${line##*: }
+        mkdir -p "${BACKUP_DIR}/${pkg}/$(dirname "$file")"
+        mv -v "${HOME}/${file}" "${BACKUP_DIR}/${pkg}/${file}"
+        needs_recheck=1
+    done <<< "$output"
+    if ((needs_recheck)); then
+        stow -nv "$pkg" 2>&1 | grep -q 'existing target is neither' && return 1 || return 0
+    else
+        grep -q 'existing target is neither' <<< "$output" && return 1 || return 0
     fi
 }
 
-install_pkg()  { backup_conflicts "$1"; stow -v "$1"; }
-restow_pkg()   { backup_conflicts "$1"; stow -vR "$1"; }
+install_pkg()  { stow -v  "$1"; }
+restow_pkg()   { stow -vR "$1"; }
 unstow_pkg()   { stow -vD "$1"; }
+unstow_all()   { while IFS= read -r p; do unstow_pkg "$p"; done < <(packages); }
 
 cmd=${1:-help}
 
@@ -246,11 +173,11 @@ case $cmd in
         [[ $cmd == update ]] && git pull --ff-only
 
         to_do=()
-        for p in $(packages); do
-            dry_ok "$p" && to_do+=("$p")
-        done
+        while IFS= read -r p; do
+            prepare_pkg "$p" && to_do+=("$p")
+        done < <(packages)
 
-        if ((${#to_do[@]}==0)); then
+        if ((${#to_do[@]} == 0)); then
             echo "Nothing to $cmd — every package has a conflict."
             exit 0
         fi
@@ -260,27 +187,22 @@ case $cmd in
         read -rp "Proceed to $cmd these packages? [y/N] " reply
         [[ $reply =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
 
-        for p in "${to_do[@]}"; do
-            if [[ $cmd == install ]]; then
-                install_pkg "$p"
-            else
-                restow_pkg "$p"
-            fi
-        done
+        if [[ $cmd == install ]]; then action=install_pkg; else action=restow_pkg; fi
+        for p in "${to_do[@]}"; do $action "$p"; done
         echo "✅  $cmd complete. Backups in ${BACKUP_DIR}"
         ;;
 
     remove)
-        ensure_packages_installed
+        require_stow
         cd "$DOTFILES_DIR"
-        for p in $(packages); do unstow_pkg "$p"; done
+        unstow_all
         echo "✅  Symlinks removed, repo kept."
         ;;
 
     uninstall)
-        ensure_packages_installed
+        require_stow
         cd "$DOTFILES_DIR"
-        for p in $(packages); do unstow_pkg "$p"; done
+        unstow_all
         cd "$HOME" && rm -rf "$DOTFILES_DIR"
         echo "✅  Repo and links deleted."
         ;;

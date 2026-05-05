@@ -16,13 +16,16 @@
 [user]
     name = osman
     email = osman@surkatty.org
-[credential]
-    helper = store
 [credential "https://github.com"]
     # Github uses "Personal access tokens" as passwords for their HTTPS
     # protocol. You can generate one at: https://github.com/settings/tokens
     username = breadtk
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
 [pull]
 	rebase = false
 [init]
 	defaultBranch = main
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

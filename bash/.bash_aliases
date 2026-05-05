@@ -3,7 +3,7 @@
 ##############
 
 # macOS vs Linux specific aliases
-if [[ $(uname -a) == "Darwin"* ]]; then
+if [[ $(uname -s) == "Darwin"* ]]; then
     alias ls='ls -lhG'
 else
     alias ls='ls -lh --color=always'

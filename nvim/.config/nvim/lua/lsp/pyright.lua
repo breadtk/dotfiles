@@ -1,2 +1,0 @@
--- pyright LSP
-return {}

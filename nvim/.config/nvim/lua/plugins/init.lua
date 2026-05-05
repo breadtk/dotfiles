@@ -11,7 +11,6 @@ return {
     { "folke/lazy.nvim" },
 
     -- LSP related
-    { "neovim/nvim-lspconfig" },
     { "mason-org/mason.nvim",
     lazy = false,
     opts = {},
@@ -21,25 +20,12 @@ return {
         lazy = false,
         dependencies = { "neovim/nvim-lspconfig", "mason-org/mason.nvim" },
         opts = {
-            ensure_installed = { "lua_ls", "pyright", "marksman", "ruff" },
-            automatic_installation = true,     -- install if missing
-            -- this single handler will run for *every* server
-            handlers = {
-                -- default handler:
-                function(server_name)
-                    local lspconfig = require("lspconfig")
-                    -- try to load your module at lua/lsp/<server_name>.lua
-                    local ok, user_opts = pcall(require, "lsp." .. server_name)
-                    if not ok then
-                        -- no custom module? do a bare setup
-                        lspconfig[server_name].setup({})
-                    else
-                        -- call setup() with whatever your module returned
-                        lspconfig[server_name].setup(user_opts)
-                    end
-                end,
-            },
-        }
+            ensure_installed = require("servers"),
+        },
+        config = function(_, opts)
+            require("mason-lspconfig").setup(opts)
+            require("lsp")
+        end,
     },
 
     -- Completion
@@ -48,15 +34,23 @@ return {
         dependencies = { "hrsh7th/cmp-nvim-lsp" },
         config = function()
             local cmp = require("cmp")
+            vim.opt.completeopt = "menu,menuone,noselect"
             cmp.setup({
-                mapping = {
-                    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-                },
+                mapping = cmp.mapping.preset.insert({
+                    ["<Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then cmp.select_next_item()
+                        else fallback() end
+                    end, { "i", "s" }),
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then cmp.select_prev_item()
+                        else fallback() end
+                    end, { "i", "s" }),
+                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                }),
                 sources = {
                     { name = "nvim_lsp" },
                 },
             })
-            vim.opt.completeopt = "menu,menuone,noselect"
         end,
     },
 }

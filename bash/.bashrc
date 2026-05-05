@@ -22,8 +22,7 @@ export PATH=$HOME/bin:$PATH
 export PATH=$PATH:"$HOME/.lmstudio/bin"
 
 # Homebrew paths
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # shellcheck disable=SC1091
 [[ -r "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
@@ -35,7 +34,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 
 # BASH history options
-[ ! -d "$XDG_CACHE_HOME/bash/" ] && mkdir "$XDG_CACHE_HOME/bash/"
+mkdir -p "$XDG_CACHE_HOME/bash/"
 export HISTFILE=$XDG_CACHE_HOME/bash/.bash_history
 export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000 # Line numbers to save
@@ -101,13 +100,6 @@ fi
 #############
 # fzf setup #
 #############
-## Preview command helper, used by other fzf options.
-if command -v bat >/dev/null 2>&1; then
-    _fzf_preview='bat -n --color=always --line-range :300 {}'
-else
-    _fzf_preview='head -n 300 {} 2>/dev/null'
-fi
-
 # Avoid conflict with bash ** globstar; set BEFORE sourcing integration
 export FZF_COMPLETION_TRIGGER='//'
 
@@ -184,3 +176,6 @@ fi
 
 # opencode
 export PATH=/home/osman/.opencode/bin:$PATH
+
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/home/osman/.lmstudio/bin"

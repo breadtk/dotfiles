@@ -4,9 +4,10 @@
         "git-credential-manager",
         "highlight",
         "jq",
-        "nvim",
         "python3-pip",
         "python3-venv",
+        "hashcat",
+        "nmap",
         "rg",
         "ruff",
         "secret-tool",
@@ -15,6 +16,8 @@
         "uv",
         "zoxide"
     ],
-    "brew": [],
-    "flatpak": []
+    "snap_classic": [
+        "nvim"
+    ],
+    "brew": []
 }
