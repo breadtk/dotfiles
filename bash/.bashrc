@@ -34,6 +34,10 @@ export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 
+# Golang: GOPATH = module cache + pkg data; GOBIN = where `go install` drops binaries
+export GOPATH="$XDG_DATA_HOME/go"
+export GOBIN="$HOME/.local/bin"
+
 # BASH history options
 mkdir -p "$XDG_CACHE_HOME/bash/"
 export HISTFILE=$XDG_CACHE_HOME/bash/.bash_history

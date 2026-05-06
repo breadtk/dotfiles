@@ -4,19 +4,35 @@
         "highlight",
         "jq",
         "python3-pip",
-        "python3-venv",
+        {"apt-get": "python3-venv"},
         "hashcat",
         "nmap",
-        "rg",
-        "ruff",
-        {"cmd": "secret-tool",  "apt-get": "libsecret-tools", "dnf": "libsecret"},
+        "golang",
+        "ripgrep",
+        {"cmd": "secret-tool", "apt-get": "libsecret-tools", "dnf": "libsecret"},
         "stow",
         "tmux",
-        "uv",
         "zoxide"
     ],
     "snap_classic": [
         "nvim"
     ],
-    "brew": []
+    "brew": [],
+    "curl_install": [
+        {
+            "cmd": "uv",
+            "install": "curl -LsSf https://astral.sh/uv/install.sh | sh",
+            "update": "uv self update"
+        },
+        {
+            "cmd": "ruff",
+            "install": "uv tool install ruff",
+            "update": "uv tool upgrade ruff"
+        },
+        {
+            "cmd": "rdap",
+            "install": "go install github.com/openrdap/rdap/cmd/rdap@master",
+            "update": "go install github.com/openrdap/rdap/cmd/rdap@master"
+        }
+    ]
 }

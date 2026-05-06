@@ -26,12 +26,18 @@ packages() {
 }
 
 manifest_values() {
-    local key=$1
+    local key=$1 manager=${2:-}
     [[ -f "$TOOLS_FILE" ]] || { echo "❌  tools manifest missing at $TOOLS_FILE"; exit 1; }
     command -v jq >/dev/null 2>&1 || { echo "❌  jq is required to read ${TOOLS_FILE}. Install jq first."; exit 1; }
-    jq -r --arg key "$key" '
+    jq -r --arg key "$key" --arg mgr "$manager" '
         if has($key) and (.[$key] | type == "array") then
-            .[$key][]?
+            .[$key][]? |
+            if type == "object" then
+                if $mgr != "" then .[$mgr] // empty
+                else .cmd // empty
+                end
+            else .
+            end
         else
             empty
         end
@@ -107,13 +113,13 @@ install_block() {
 }
 
 ensure_packages_installed() {
-    local -a system_packages=() snap_classic_packages=() brew_packages=()
-    readarray -t system_packages       < <(manifest_values "system_package")
-    readarray -t snap_classic_packages < <(manifest_values "snap_classic")
-    readarray -t brew_packages         < <(manifest_values "brew")
-
     local manager
     manager=$(detect_system_package_manager || true)
+
+    local -a system_packages=() snap_classic_packages=() brew_packages=()
+    readarray -t system_packages       < <(manifest_values "system_package" "${manager:-}")
+    readarray -t snap_classic_packages < <(manifest_values "snap_classic")
+    readarray -t brew_packages         < <(manifest_values "brew")
     if ((${#system_packages[@]})) && [[ -z ${manager:-} ]]; then
         echo "❌  No supported system package manager found, but system packages are required."
         exit 1
@@ -132,6 +138,28 @@ ensure_packages_installed() {
     install_block "Snap (classic)" snap_classic_package_installed snap_classic_packages \
         install_snap_classic_packages
     install_block "Brew" brew_package_installed brew_packages brew install
+}
+
+ensure_curl_tools() {
+    local mode=${1:-install}
+    [[ -f "$TOOLS_FILE" ]] || return 0
+    jq -e 'has("curl_install")' "$TOOLS_FILE" >/dev/null 2>&1 || return 0
+
+    local cmd_name install_cmd update_cmd
+    while IFS=$'\t' read -r cmd_name install_cmd update_cmd; do
+        [[ -z $cmd_name ]] && continue
+        if command -v "$cmd_name" >/dev/null 2>&1; then
+            if [[ $mode == update && -n $update_cmd ]]; then
+                echo "Updating $cmd_name..."
+                bash -c "$update_cmd"
+            fi
+        else
+            echo "Installing $cmd_name..."
+            bash -c "$install_cmd"
+            command -v "$cmd_name" >/dev/null 2>&1 \
+                || { echo "❌  Failed to install $cmd_name"; exit 1; }
+        fi
+    done < <(jq -r '.curl_install[]? | [.cmd, .install, .update] | @tsv' "$TOOLS_FILE")
 }
 
 require_stow() {
@@ -168,6 +196,7 @@ cmd=${1:-help}
 case $cmd in
     install|update)
         ensure_packages_installed
+        ensure_curl_tools "$cmd"
         [[ -d ${DOTFILES_DIR}/.git ]] || git clone --recursive "$REPO_URL" "$DOTFILES_DIR"
         cd "$DOTFILES_DIR"
         [[ $cmd == update ]] && git pull --ff-only
