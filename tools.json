@@ -3,14 +3,20 @@
         "fzf",
         "highlight",
         "jq",
-        {"cmd": "nvim",         "pkg": "neovim"},
-        {"cmd": "pip3",         "pkg": "python3-pip"},
-        {"cmd": "rg",           "pkg": "ripgrep"},
+        "python3-pip",
+        "python3-venv",
+        "hashcat",
+        "nmap",
+        "rg",
         "ruff",
         {"cmd": "secret-tool",  "apt-get": "libsecret-tools", "dnf": "libsecret"},
         "stow",
         "tmux",
         "uv",
         "zoxide"
-    ]
+    ],
+    "snap_classic": [
+        "nvim"
+    ],
+    "brew": []
 }
