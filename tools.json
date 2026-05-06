@@ -14,11 +14,22 @@
         "tmux",
         "zoxide"
     ],
-    "snap_classic": [
-        "nvim"
-    ],
+    "snap_classic": [],
     "brew": [],
     "curl_install": [
+        {
+            "cmd": "nvim",
+            "install": "curl -LsSf https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o /tmp/nvim.appimage",
+            "post_install": [
+                "chmod +x /tmp/nvim.appimage",
+                "mv /tmp/nvim.appimage $HOME/.local/bin/nvim"
+            ],
+            "update": "curl -LsSf https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o /tmp/nvim.appimage",
+            "post_update": [
+                "chmod +x /tmp/nvim.appimage",
+                "mv /tmp/nvim.appimage $HOME/.local/bin/nvim"
+            ]
+        },
         {
             "cmd": "uv",
             "install": "curl -LsSf https://astral.sh/uv/install.sh | sh",

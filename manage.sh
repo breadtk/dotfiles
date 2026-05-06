@@ -145,21 +145,36 @@ ensure_curl_tools() {
     [[ -f "$TOOLS_FILE" ]] || return 0
     jq -e 'has("curl_install")' "$TOOLS_FILE" >/dev/null 2>&1 || return 0
 
-    local cmd_name install_cmd update_cmd
-    while IFS=$'\t' read -r cmd_name install_cmd update_cmd; do
-        [[ -z $cmd_name ]] && continue
+    local entry cmd_name main_cmd post_key step verb
+    [[ $mode == install ]] && verb="Installing" || verb="Updating"
+
+    while IFS= read -r entry; do
+        cmd_name=$(jq -r '.cmd' <<< "$entry")
+        [[ -z $cmd_name || $cmd_name == null ]] && continue
+
         if command -v "$cmd_name" >/dev/null 2>&1; then
-            if [[ $mode == update && -n $update_cmd ]]; then
-                echo "Updating $cmd_name..."
-                bash -c "$update_cmd"
-            fi
+            [[ $mode != update ]] && continue
+            main_cmd=$(jq -r '.update // empty' <<< "$entry")
+            post_key="post_update"
         else
-            echo "Installing $cmd_name..."
-            bash -c "$install_cmd"
-            command -v "$cmd_name" >/dev/null 2>&1 \
-                || { echo "❌  Failed to install $cmd_name"; exit 1; }
+            main_cmd=$(jq -r '.install // empty' <<< "$entry")
+            post_key="post_install"
         fi
-    done < <(jq -r '.curl_install[]? | [.cmd, .install, .update] | @tsv' "$TOOLS_FILE")
+        [[ -z $main_cmd ]] && continue
+
+        echo "$verb $cmd_name..."
+        bash -c "$main_cmd" || { echo "❌  Failed to $mode $cmd_name"; exit 1; }
+
+        while IFS= read -r step; do
+            echo "  → $step"
+            bash -c "$step" || { echo "❌  Post-step failed: $step"; exit 1; }
+        done < <(jq -r --arg key "$post_key" '.[$key]? // [] | .[]?' <<< "$entry")
+
+        if [[ $mode == install ]]; then
+            command -v "$cmd_name" >/dev/null 2>&1 \
+                || { echo "❌  $cmd_name not found after install"; exit 1; }
+        fi
+    done < <(jq -c '.curl_install[]?' "$TOOLS_FILE")
 }
 
 require_stow() {
